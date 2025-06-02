@@ -1,0 +1,18 @@
+[
+  {
+    "id": "theme1",
+    "title": "Florite",
+    "description": "Elegant theme for portfolios",
+    "category": "portfolio",
+    "mobilePreview": "https://cdn.aasaan.app/categories/artsandcrafts/themes/florique.jpg",
+    "laptopPreview": "https://cdn.aasaan.app/categories/artsandcrafts/themes/florique.jpg"
+  },
+  {
+    "id": "theme2",
+    "title": "TechNova",
+    "description": "Modern theme for startups",
+    "category": "startup",
+    "mobilePreview": "https://cdn.aasaan.app/categories/babyandkids/themes/tinysteps.jpg",
+    "laptopPreview": "https://cdn.aasaan.app/categories/babyandkids/themes/tinysteps.jpg"
+  }
+]

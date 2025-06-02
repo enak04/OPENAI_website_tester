@@ -1,0 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-Noto: Noto Sans Mono, "sans-serif";
+}

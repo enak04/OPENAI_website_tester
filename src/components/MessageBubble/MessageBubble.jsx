@@ -3,17 +3,17 @@ import ThemeGrid from '../ThemeGrid/ThemeGrid';
 
 const MessageBubble = ({ message, onThemeSelect }) => {
   return (
-    <div className="py-4 border-b border-gray-100 last:border-b-0">
+    <div className={`p-4 m-2 mt-0 ${message.isUser ? 'bg-blue-50 border rounded-2xl border-gray-50' : 'bg-white'}`}>
       {/* User/AI Label */}
-      <div className="flex items-center space-x-2 mb-3">
+      <div className="flex items-center align-middle space-x-2">
         <div
-          className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white ${
+          className={`w-8 h-8 rounded-full flex items-center justify-center text-md font-bold text-white ${
             message.isUser ? 'bg-gray-600' : 'bg-blue-600'
           }`}
         >
           {message.isUser ? 'U' : 'AI'}
         </div>
-        <span className="text-sm font-medium text-gray-700">
+        <span className="text-base font-medium text-gray-700">
           {message.isUser ? 'You' : 'Shoopy AI'}
         </span>
         <span className="text-xs text-gray-400">
@@ -25,8 +25,8 @@ const MessageBubble = ({ message, onThemeSelect }) => {
       </div>
 
       {/* Message Content */}
-      <div className="ml-8">
-        <p className="text-gray-800 text-sm leading-relaxed mb-3">
+      <div className="ml-10">
+        <p className="text-gray-800 text-base leading-relaxed mb-3">
           {message.content}
         </p>
 

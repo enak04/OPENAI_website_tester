@@ -1,18 +1,20 @@
 [
   {
     "id": "theme1",
-    "title": "Florite",
-    "description": "Elegant theme for portfolios",
-    "category": "portfolio",
-    "mobilePreview": "https://cdn.aasaan.app/categories/artsandcrafts/themes/florique.jpg",
-    "laptopPreview": "https://cdn.aasaan.app/categories/artsandcrafts/themes/florique.jpg"
+    "title": "FreshGo",
+    "description": "A fresh and modern theme for foodstuffs and groceries",
+    "category": "grocery",
+    "mobilePreview": "https://static.wixstatic.com/media/2b66b2_d7c5f6ba964a4524a543dac55379842a~mv2.png/v1/fill/w_316,h_410,al_c,q_85,usm_4.00_1.00_0.00,enc_avif,quality_auto/Frame%202608149.png",
+    "laptopPreview": "https://static.wixstatic.com/media/2b66b2_d7c5f6ba964a4524a543dac55379842a~mv2.png/v1/fill/w_316,h_410,al_c,q_85,usm_4.00_1.00_0.00,enc_avif,quality_auto/Frame%202608149.png",
+    "URL" : "https://freshgo.store.shoopy.in/"
   },
   {
     "id": "theme2",
-    "title": "TechNova",
-    "description": "Modern theme for startups",
-    "category": "startup",
-    "mobilePreview": "https://cdn.aasaan.app/categories/babyandkids/themes/tinysteps.jpg",
-    "laptopPreview": "https://cdn.aasaan.app/categories/babyandkids/themes/tinysteps.jpg"
+    "title": "BagGo",
+    "description": "A stylish theme for fashion and accessories",
+    "category": "fashion",
+    "mobilePreview": "https://static.wixstatic.com/media/2b66b2_85149ab5afe94c859ac19a1861e73430~mv2.png/v1/fill/w_316,h_410,al_c,q_85,usm_4.00_1.00_0.00,enc_avif,quality_auto/2023%2C%2012_17_30%20GMT%2B5_30.png",
+    "laptopPreview": "https://static.wixstatic.com/media/2b66b2_85149ab5afe94c859ac19a1861e73430~mv2.png/v1/fill/w_316,h_410,al_c,q_85,usm_4.00_1.00_0.00,enc_avif,quality_auto/2023%2C%2012_17_30%20GMT%2B5_30.png",
+    "URL" : "https://baggo.store.shoopy.in/"
   }
 ]

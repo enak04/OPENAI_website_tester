@@ -3,11 +3,11 @@ import React from 'react';
 const ThemeCard = ({ themeTitle, themeDescription, mobilePreview, desktopPreview, onSelect }) => {
   return (
     <div
-      className="w-full max-w-[360px] p-4 box-border"
+      className="w-full max-w-[360px] pb-4 box-border"
       data-category-name="artsandcrafts"
       onClick={onSelect}
     >
-      <div className="mb-8">
+      <div className="mb-2">
         <div className="rounded border border-black overflow-hidden group">
           <a href="#" id="api-call-link" data-title={themeTitle}>
             <div className="relative max-h-80 lg:max-h-96 bg-white overflow-hidden">
@@ -17,7 +17,7 @@ const ThemeCard = ({ themeTitle, themeDescription, mobilePreview, desktopPreview
                 src={desktopPreview}
               />
               <img
-                className="absolute top-24 right-5 w-36 lg:top-32 lg:w-40 border border-black rounded-lg"
+                className="absolute top-24 bottom-0 right-5 w-36 lg:top-32 lg:w-40 border border-black rounded-lg"
                 alt={`Mobile preview for ${themeTitle} style`}
                 src={mobilePreview}
               />
@@ -32,7 +32,7 @@ const ThemeCard = ({ themeTitle, themeDescription, mobilePreview, desktopPreview
             {themeTitle}
           </h4>
           <h5
-            className="text-sm font-light pb-2 text-gray-600"
+            className="text-sm font-light text-gray-600"
             data-theme-description={themeTitle}
           >
             {themeDescription}

@@ -13,20 +13,8 @@ const PromptInput = ({ onSend }) => {
   };
 
   return (
-    <div className="h-[100vh] flex flex-col items-center justify-center px-4 sm:px-6 md:px-12 bg-[radial-gradient(circle_at_0.5px_0.5px,_#000_0.5px,_transparent_0)] bg-[length:16px_16px]">
-      <div className="mb-2 text-center">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide text-blue-500">
-          Shoopy.AI
-        </h1>
-      </div>
-
-      <div className="mb-6 text-center max-w-md sm:max-w-xl">
-        <h1 className="text-sm sm:text-base md:text-lg text-gray-700 font-medium leading-relaxed">
-          Want to build a website? Try out our new Shoopy.AI to build a functional website in seconds.
-        </h1>
-      </div>
-
-      <div className="w-full max-w-3xl lg:max-w-3xl sm:max-w-xl relative bg-white rounded-2xl sm:rounded-3xl border border-gray-200 p-3 sm:p-5 shadow-lg">
+    <div className="h-[100vh] flex flex-col items-center justify-center bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
+      <div className="sm:w-full max-w-200 sm:max-w-xl lg:max-w-2xl relative bg-white rounded-2xl sm:rounded-3xl border border-gray-200 p-3 sm:p-5 shadow-lg">
         <TextareaAutosize
           value={message}
           onChange={(e) => setMessage(e.target.value)}

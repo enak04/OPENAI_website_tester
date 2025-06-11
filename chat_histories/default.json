@@ -1,0 +1,42 @@
+[
+  {
+    "role": "user",
+    "content": "Hi , my name is Anirudh"
+  },
+  {
+    "role": "assistant",
+    "content": "Hello, Anirudh! How can I assist you today?"
+  },
+  {
+    "role": "user",
+    "content": "Hi , I wanted to know if a car travelled 50km in 1 hour , what is distance/time called?"
+  },
+  {
+    "role": "assistant",
+    "content": "The term for \"distance/time\" is **speed**. \n\nIn this case, if a car traveled 50 km in 1 hour, the speed of the car is calculated as:\n\\[ \\text{Speed} = \\frac{\\text{Distance}}{\\text{Time}} \\]\n\nSo, the car traveled at a speed of \\(50 \\, \\text{km/h}\\)."
+  },
+  {
+    "role": "user",
+    "content": "What is the concept called ?"
+  },
+  {
+    "role": "assistant",
+    "content": null,
+    "tool_calls": [
+      {
+        "id": "call_gxsSO9a9HlP9uNB8sbh7sorr",
+        "function": {
+          "name": "extract_physics_concept",
+          "arguments": "{\"concept\":\"Speed\"}"
+        },
+        "type": "function"
+      }
+    ]
+  },
+  {
+    "role": "tool",
+    "tool_call_id": "call_gxsSO9a9HlP9uNB8sbh7sorr",
+    "name": "extract_physics_concept",
+    "content": "The extracted concept is: Speed"
+  }
+]

@@ -1,0 +1,49 @@
+import random
+
+def parse_prompt_to_config(prompt):
+    # Dummy parsing logic — in real use, integrate GPT or keyword NLP
+    theme_style = "modern" if "modern" in prompt.lower() else "classic"
+
+    return {
+        "store_name": generate_store_name(prompt),
+        "theme": {
+            "layout": "grid" if "grid" in prompt else "carousel",
+            "colors": {
+                "primary": "#1E1E1E" if "dark" in prompt else "#FFFFFF",
+                "secondary": "#F5A623",
+                "background": "#000000" if "dark" in prompt else "#FFFFFF",
+                "text": "#FFFFFF" if "dark" in prompt else "#000000"
+            },
+            "font": {
+                "heading": "Poppins",
+                "body": "Open Sans"
+            },
+            "image_style": "rounded" if "rounded" in prompt else "square"
+        },
+        "sections": [
+            {
+                "type": "hero",
+                "title": "Welcome to Your New Store",
+                "subtitle": "Built with your taste in mind",
+                "cta": "Explore"
+            },
+            {
+                "type": "product_grid",
+                "title": "Featured Products"
+            },
+            {
+                "type": "footer",
+                "links": ["About", "Contact", "FAQs"]
+            }
+        ],
+        "product_categories": extract_categories(prompt),
+        "tone": theme_style
+    }
+
+def generate_store_name(prompt):
+    keywords = prompt.split()
+    return ''.join(word.capitalize() for word in keywords[:2]) + str(random.randint(100, 999))
+
+def extract_categories(prompt):
+    keywords = ["electronics", "clothes", "jewelry", "books", "gadgets", "accessories"]
+    return [kw.capitalize() for kw in keywords if kw in prompt.lower()]

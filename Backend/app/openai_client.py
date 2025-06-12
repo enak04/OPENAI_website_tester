@@ -1,6 +1,6 @@
 from openai import AzureOpenAI
 from .config import Config
-from .functions import submit_business_details, change_theme_color
+from .functions import submit_business_details, change_theme_color , get_valid_business_categories
 import json
 
 client = AzureOpenAI(
@@ -15,11 +15,10 @@ client = AzureOpenAI(
 SYSTEM_PROMPT = """
 You are a friendly and respectful chatbot helping users set up their business profile.
 
-Your **primary goal** is to extract two pieces of information from the user:
-1. Their **name**
-2. Their **business category** (e.g., bakery, tech startup, clothing brand, etc.)
+Your **primary goal** is to extract following pieces of information from the user:
+2. Their **business category** 
 
-Once you have both, call the function `submitBusinessDetails(name, business_category)`.
+Once you have it, call the function `submitBusinessDetails(business_category)`.
 
 If the user **asks to change the theme color**, you may optionally call `changeThemeColor(color)` with their preferred color. Do not prompt for it unless they bring it up.
 
@@ -34,20 +33,16 @@ tools = [
         "type": "function",
         "function": {
             "name": "submitBusinessDetails",
-            "description": "Submit the user's name and business category once both are available.",
+            "description": "Submit the user's business category once available. Business category must exactly match one of the known categories.",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "name": {
-                        "type": "string",
-                        "description": "User's name"
-                    },
                     "business_category": {
                         "type": "string",
-                        "description": "Type of business (e.g., cafe, SaaS company, boutique)"
+                        "description": "Type of business.Strictly return a category from any of the following : Grocery , Shopping"
                     }
                 },
-                "required": ["name", "business_category"]
+                "required": ["business_category"]
             }
         }
     },
@@ -100,13 +95,26 @@ def get_openai_response(user_input, chat_history):
                 "tool_calls": message.tool_calls
             })
 
-            tool_call = message.tool_calls[0]
-            function_name = tool_call.function.name
-            arguments = json.loads(tool_call.function.arguments)
+            tool_call = message.tool_calls[0].model_dump()
+            function_name = tool_call["function"]["name"]
+            arguments = json.loads(tool_call["function"]["arguments"])
+
 
             # Call the appropriate function
             if function_name == "submitBusinessDetails":
-                result = submit_business_details(**arguments)
+                valid_categories = ["grocery"]
+                category = arguments.get("business_category", "").strip().lower()
+
+                if category in [vc.lower() for vc in valid_categories]:
+                    themes  = submit_business_details(**arguments)
+                    result = {
+                        "reply" : "Please select a theme!", 
+                        "themes" : themes
+                    }
+                else:
+                    result = {
+                        "error": f"'{category}' is not a valid business category. Please choose from: {', '.join(valid_categories)}"
+                    }
             elif function_name == "changeThemeColor":
                 result = change_theme_color(**arguments)
             else:
@@ -114,16 +122,17 @@ def get_openai_response(user_input, chat_history):
 
             chat_history.append({
                 "role": "tool",
-                "tool_call_id": tool_call.id,
+                "tool_call_id": tool_call["id"],
                 "name": function_name,
                 "content": result
             })
+
 
             return result
 
         else:
             chat_history.append({"role": "assistant", "content": message.content})
-            return message.content
+            return {"reply" : message.content }
 
     except Exception as e:
         return f"Error: {str(e)}"

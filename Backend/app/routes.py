@@ -94,4 +94,4 @@ def chat():
     # Save updated history
     save_chat_history(user_id, chat_history)
 
-    return jsonify({"reply": reply})
+    return jsonify({**reply , "isuser" : "false" })

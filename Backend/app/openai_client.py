@@ -1,5 +1,6 @@
 from .client import client
 from .functions import submit_business_details , customize_css
+from datetime import datetime
 import json
 import os
 
@@ -79,7 +80,7 @@ def get_openai_response(user_input, chat_history):
             chat_history.insert(0, {"role": "system", "content": SYSTEM_PROMPT})
 
         # Add user input to history
-        chat_history.append({"role": "user", "content": user_input})
+        chat_history.append({"timestamp": datetime.now().isoformat() , "role": "user", "content": user_input})
 
         sanitized_history = sanitize_chat_history(chat_history)
 
@@ -95,7 +96,9 @@ def get_openai_response(user_input, chat_history):
         message = choice.message
 
         if message.tool_calls:
+            assistant_timestamp = datetime.now().isoformat()
             chat_history.append({
+                "timestamp": assistant_timestamp,
                 "role": "assistant",
                 "content": None,
                 "tool_calls": [
@@ -129,20 +132,30 @@ def get_openai_response(user_input, chat_history):
                     
                     themes  = submit_business_details(**arguments)
                     result = {
+                        "timestamp": datetime.now().isoformat(),
                         "reply" : "Please select a theme!", 
                         "themes" : themes
                     }
                 else:
                     result = {
+                        "timestamp": datetime.now().isoformat(),
                         "error": f"'{category}' is not a valid business category. Please choose from: {', '.join(valid_categories)}"
                     }
             elif function_name == "customizeCSS":
-                result = customize_css(**arguments)
+                css_result = customize_css(**arguments)
+                result = {
+                    "timestamp": datetime.now().isoformat(),
+                    "css" : css_result
+                }
 
             else:
-                result = f"Unknown function: {function_name}"
+                result = {
+                    "timestamp": datetime.now().isoformat(),
+                    "error": f"Unknown function: {function_name}"
+                }
 
             chat_history.append({
+                "timestamp": datetime.now().isoformat(),
                 "role": "tool",
                 "tool_call_id": tool_call["id"],
                 "name": function_name,
@@ -153,8 +166,9 @@ def get_openai_response(user_input, chat_history):
             return result
 
         else:
-            chat_history.append({"role": "assistant", "content": message.content})
-            return {"content" : message.content }
+            timestamp = datetime.now().isoformat()
+            chat_history.append({"timestamp": timestamp ,"role": "assistant", "content": message.content})
+            return {"timestamp" : timestamp , "content" : message.content }
 
     except Exception as e:
         return f"Error: {str(e)}"

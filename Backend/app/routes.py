@@ -9,42 +9,64 @@ HISTORY_DIR = "chat_histories"
 if not os.path.exists(HISTORY_DIR):
     os.makedirs(HISTORY_DIR)
 
+
+def is_probably_css(text):
+    """Simple heuristic to check if the content looks like CSS."""
+    return bool(re.search(r'\b(?:color|background|font|padding|margin|border)\b\s*:', text))
+
 def get_history_file_path(user_id):
     return os.path.join(HISTORY_DIR, f"{user_id}.json")
 
 def load_chat_history(user_id):
     path = get_history_file_path(user_id)
     if os.path.exists(path):
-        with open(path, "r") as f:
+        with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
     return []
+
+# def save_chat_history(user_id, chat_history):
+#     path = get_history_file_path(user_id)
+
+#     serializable_history = []
+
+#     for msg in chat_history:
+#         msg_copy = msg.copy()
+
+#         # Handle assistant tool_calls
+#         if "tool_calls" in msg_copy and isinstance(msg_copy["tool_calls"], list):
+#             serialized_tool_calls = []
+
+#             for call in msg_copy["tool_calls"]:
+#                 if isinstance(call, dict):
+#                     serialized_tool_calls.append(call)
+#                 else:
+#                     serialized_tool_calls.append({
+#                         "id": call.id,
+#                         "function": {
+#                             "name": call.function.name,
+#                             "arguments": call.function.arguments
+#                         },
+#                         "type": call.type
+#                     })
+
+#             msg_copy["tool_calls"] = serialized_tool_calls
+
+#         # Tool role is already serializable (tool_call_id is a string), no changes needed
+#         serializable_history.append(msg_copy)
+
+#     with open(path, "w") as f:
+#         json.dump(serializable_history, f, indent=2)
 
 def save_chat_history(user_id, chat_history):
     path = get_history_file_path(user_id)
 
-    # Convert all messages to serializable format
-    serializable_history = []
-    for msg in chat_history:
-        msg_copy = msg.copy()
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(path), exist_ok=True)
 
-        # Convert tool_calls (which are objects) to dicts
-        if "tool_calls" in msg_copy and isinstance(msg_copy["tool_calls"], list):
-            tool_calls_serialized = []
-            for tool_call in msg_copy["tool_calls"]:
-                tool_calls_serialized.append({
-                    "id": tool_call.id,
-                    "function": {
-                        "name": tool_call.function.name,
-                        "arguments": tool_call.function.arguments
-                    },
-                    "type": tool_call.type
-                })
-            msg_copy["tool_calls"] = tool_calls_serialized
+    # Dump the chat history exactly as it is, assuming it's valid JSON-serializable
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(chat_history, f, indent=2, ensure_ascii=False)
 
-        serializable_history.append(msg_copy)
-
-    with open(path, "w") as f:
-        json.dump(serializable_history, f, indent=2)
 
 
 
@@ -75,12 +97,11 @@ api = Blueprint('api', __name__)
 def hello():
     return "API working fine"
 
-@api.route('/chat', methods=['POST'])
+@api.route('/chat/<user_id>', methods=['POST'])
 
-def chat():
+def chat(user_id):
     data = request.get_json()
     user_message = data.get("message", "")
-    user_id = "default"  # Pass unique user ID from frontend if possible
 
     if not user_message:
         return jsonify({"error": "No message provided"}), 400
@@ -93,5 +114,10 @@ def chat():
 
     # Save updated history
     save_chat_history(user_id, chat_history)
+    
 
-    return jsonify({**reply , "isuser" : "false" })
+    if isinstance(reply, dict):
+        return jsonify({**reply, "isuser": "false"})
+    else:
+        return jsonify({"reply": reply, "isuser": "false"})
+

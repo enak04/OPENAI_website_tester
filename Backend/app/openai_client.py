@@ -1,29 +1,21 @@
-from openai import AzureOpenAI
-from .config import Config
-from .functions import submit_business_details, change_theme_color , get_valid_business_categories
+from .client import client
+from .functions import submit_business_details , customize_css
 import json
+import os
 
-client = AzureOpenAI(
-    api_key=Config.OPENAI_API_KEY,
-    api_version="2025-01-01-preview",
-    azure_endpoint="https://shoop-ma9lhvun-eastus2.openai.azure.com"
-)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROMPT_PATH = os.path.join(BASE_DIR, '..', 'data', 'prompt.txt')
+
+PROMPT = ""
+
+with open(PROMPT_PATH, 'r', encoding='utf-8') as f:
+    PROMPT = f.read()
 
 # ----------------------------
 # SYSTEM PROMPT
 # ----------------------------
-SYSTEM_PROMPT = """
-You are a friendly and respectful chatbot helping users set up their business profile.
+SYSTEM_PROMPT = PROMPT
 
-Your **primary goal** is to extract following pieces of information from the user:
-2. Their **business category** 
-
-Once you have it, call the function `submitBusinessDetails(business_category)`.
-
-If the user **asks to change the theme color**, you may optionally call `changeThemeColor(color)` with their preferred color. Do not prompt for it unless they bring it up.
-
-Stay conversational and helpful. Avoid asking for everything at once. Gently guide the user to give the required info. If they go off-topic, kindly steer them back to completing the business setup.
-"""
 
 # ----------------------------
 # FUNCTION DEFINITIONS (TOOLS)
@@ -47,23 +39,35 @@ tools = [
         }
     },
     {
-        "type": "function",
-        "function": {
-            "name": "changeThemeColor",
-            "description": "Change the website/app theme color based on user request.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "color": {
-                        "type": "string",
-                        "description": "The preferred color theme (e.g., red, blue, dark mode)"
-                    }
+    "type": "function",
+    "function": {
+        "name": "customizeCSS",
+        "description": "Customize a part of the selected theme's CSS file.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "property_to_change": {
+                    "type": "string",
+                    "description": "The part of the theme to modify, like button color, text size, background, etc."
                 },
-                "required": ["color"]
-            }
+                "new_value": {
+                    "type": "string",
+                    "description": "The new value the user wants, e.g., 'red', '18px', '#000', etc."
+                }
+            },
+            "required": ["property_to_change", "new_value"]
         }
     }
+}
+
 ]
+
+def sanitize_chat_history(chat_history):
+    for message in chat_history:
+        # Fix tool message content if it's a dict
+        if message["role"] == "tool" and isinstance(message.get("content"), dict):
+            message["content"] = json.dumps(message["content"])
+    return chat_history
 
 # ----------------------------
 # OPENAI CHAT FUNCTION
@@ -77,10 +81,12 @@ def get_openai_response(user_input, chat_history):
         # Add user input to history
         chat_history.append({"role": "user", "content": user_input})
 
+        sanitized_history = sanitize_chat_history(chat_history)
+
         # Send to OpenAI
         response = client.chat.completions.create(
             model="gpt-4o-theme-customization",
-            messages=chat_history,
+            messages=sanitized_history,
             tools=tools,
             tool_choice="auto"
         )
@@ -92,7 +98,17 @@ def get_openai_response(user_input, chat_history):
             chat_history.append({
                 "role": "assistant",
                 "content": None,
-                "tool_calls": message.tool_calls
+                "tool_calls": [
+                    {
+                        "id": tc.id,
+                        "function": {
+                            "name": tc.function.name,
+                            "arguments": tc.function.arguments
+                        },
+                        "type": tc.type
+                    }
+                    for tc in message.tool_calls
+                ]
             })
 
             tool_call = message.tool_calls[0].model_dump()
@@ -102,10 +118,15 @@ def get_openai_response(user_input, chat_history):
 
             # Call the appropriate function
             if function_name == "submitBusinessDetails":
-                valid_categories = ["grocery"]
+                valid_categories = [
+                                    "pharmacy","general store","fruits & vegetables","meat shop","bakery shop","mobile store",
+                                    "electronics shop","restaurant","book shop","beauty store","clothing store","gift shop","hardware shop",
+                                    "service & repair","saloon shop","computer & accessories shop","home & kitchen appliance","photostat & telecom","watch store","shopping"
+                                    ]   
                 category = arguments.get("business_category", "").strip().lower()
 
                 if category in [vc.lower() for vc in valid_categories]:
+                    
                     themes  = submit_business_details(**arguments)
                     result = {
                         "reply" : "Please select a theme!", 
@@ -115,8 +136,9 @@ def get_openai_response(user_input, chat_history):
                     result = {
                         "error": f"'{category}' is not a valid business category. Please choose from: {', '.join(valid_categories)}"
                     }
-            elif function_name == "changeThemeColor":
-                result = change_theme_color(**arguments)
+            elif function_name == "customizeCSS":
+                result = customize_css(**arguments)
+
             else:
                 result = f"Unknown function: {function_name}"
 
@@ -132,7 +154,7 @@ def get_openai_response(user_input, chat_history):
 
         else:
             chat_history.append({"role": "assistant", "content": message.content})
-            return {"reply" : message.content }
+            return {"content" : message.content }
 
     except Exception as e:
         return f"Error: {str(e)}"

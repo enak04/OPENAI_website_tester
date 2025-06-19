@@ -23,6 +23,8 @@ def submit_business_details( business_category):
     # Construct full path to Data/themes.json
     themes_path = os.path.join(BASE_DIR, "themes.json")
     print("Looking for themes.json at:", themes_path)
+    print("Getting theme from:", themes_path)
+    print("Does file exist?", os.path.exists(themes_path))
 
     try:
 

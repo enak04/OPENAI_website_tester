@@ -21,7 +21,8 @@ def submit_business_details( business_category):
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
     # Construct full path to Data/themes.json
-    themes_path = os.path.join(BASE_DIR, "themes.json")
+    themes_path = os.path.join(BASE_DIR, "..", "data", "themes.json")
+    themes_path = os.path.abspath(themes_path)  
     print("Looking for themes.json at:", themes_path)
     print("Getting theme from:", themes_path)
     print("Does file exist?", os.path.exists(themes_path))

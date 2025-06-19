@@ -17,10 +17,12 @@ import os
 
 def submit_business_details( business_category):
     # Construct the relative path to themes.json (2 levels up from this file)
+    
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
     # Construct full path to Data/themes.json
     themes_path = os.path.join(BASE_DIR, "themes.json")
+    print("Looking for themes.json at:", themes_path)
 
     try:
 

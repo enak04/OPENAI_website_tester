@@ -11,6 +11,10 @@ client = MongoClient(
     tlsCAFile=certifi.where()
 )
 
+db = client['Backend']
+chat_collection = db["chat_history"]
+theme_collection = db["themes_history"]
+
 
 
 

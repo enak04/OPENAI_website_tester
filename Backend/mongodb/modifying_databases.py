@@ -1,10 +1,15 @@
-from pymongo import MongoClient 
-import json
+import os
+import certifi
+from pymongo import MongoClient
 
-client = MongoClient("mongodb+srv://enak915:AMC11DgIsGELTyeC@trialdatabase.olxme32.mongodb.net/?retryWrites=true&w=majority&appName=TrialDatabase")
-db = client['Backend']
-chat_collection = db["chat_history"]
-theme_collection = db["themes_history"]
+# Always store secrets like DB URI in environment variables
+uri = os.environ.get("MONGO_URI", "fallback-uri-if-needed")
+
+client = MongoClient(
+    uri,
+    tls=True,
+    tlsCAFile=certifi.where()
+)
 
 
 

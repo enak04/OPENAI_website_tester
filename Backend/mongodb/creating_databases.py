@@ -4,7 +4,7 @@ from pymongo import MongoClient
 
 
 # Always store secrets like DB URI in environment variables
-uri = os.environ.get("MONGO_URI", "fallback-uri-if-needed")
+uri = "mongodb+srv://enak915:AMC11DgIsGELTyeC@trialdatabase.olxme32.mongodb.net/?retryWrites=true&w=majority&appName=TrialDatabase"
 
 client = MongoClient(
     uri,

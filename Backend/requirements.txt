@@ -9,3 +9,4 @@ azure-storage-blob
 azure-identity
 pymongo[srv]==3.12.3
 certifi==2021.10.8
+cssutils

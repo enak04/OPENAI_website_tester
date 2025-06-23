@@ -222,7 +222,8 @@ def get_openai_response(user_input, chat_history , user_id , session_id):
                     )
                     result = {
                         "timestamp": datetime.now().isoformat(),
-                        "theme": theme_result
+                        "theme": theme_result,
+                        "content" :"select a theme"
                     }
                     append_tool_call_message = {
                         "timestamp": datetime.now().isoformat(),
@@ -254,15 +255,23 @@ def get_openai_response(user_input, chat_history , user_id , session_id):
                         
                 elif function_name == "customizeCSS":
                     css_result = customize_css(**arguments , user_id = user_id , session_id = session_id)
-                    result = {
-                        "timestamp": datetime.now().isoformat(),
-                        "css": css_result
-                    }
+                    if css_result.startswith("* {"):
+                        result = {
+                            "timestamp": datetime.now().isoformat(),
+                            "css": css_result,
+                            "role" : "assistant"
+                        }
+                    else:
+                        result = {
+                            "timestamp": datetime.now().isoformat(),
+                            "content": css_result,
+                            "role" : "assistant"
+                        }
                     chat_history.append(result)
                     insert_data(result , user_id , session_id)
                     insert_theme_data(css_result , user_id , session_id)
                     tool_call_results.append(result)
-            return tool_call_results
+            return result
 
         # ---- NO TOOL CALL ----
         else:

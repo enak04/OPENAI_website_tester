@@ -346,7 +346,8 @@ def get_openai_response(user_input, chat_history, user_id, session_id):
             model="gpt-4o-theme-customization",
             messages=messages,
             tools=tools,
-            tool_choice="auto"
+            tool_choice="auto",
+            temperature = 0.4
         )
 
         message = response.choices[0].message

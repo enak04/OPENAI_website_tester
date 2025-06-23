@@ -1,3 +1,6 @@
+python>=3.8,<3.12
+
+
 Flask
 openai
 python-dotenv
@@ -7,5 +10,5 @@ azure-search-documents
 azure-core
 azure-storage-blob
 azure-identity
-pymongo[srv]==3.12
-certifi
+pymongo[srv]==3.12.3
+certifi==2021.10.8

@@ -2,6 +2,7 @@ import os
 import certifi
 from pymongo import MongoClient
 
+
 # Always store secrets like DB URI in environment variables
 uri = os.environ.get("MONGO_URI", "fallback-uri-if-needed")
 

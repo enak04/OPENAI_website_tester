@@ -121,4 +121,5 @@ def chat(user_id):
         return jsonify({**reply, "isuser": "false"})
     else:
         return jsonify({"reply": reply, "isuser": "false"})
+    
 

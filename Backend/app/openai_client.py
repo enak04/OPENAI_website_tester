@@ -25,10 +25,14 @@ def load_categoriess(path=categories_path):
         return json.load(file)
 
 def resolve_category(user_input, categories, threshold=80):
+
+    normalized_map = {cat.lower(): cat for cat in categories}
+    normalized_categories = list(normalized_map.keys())
+
     # Convert to lowercase for consistent matching
     user_input = user_input.lower().strip()
-    match, score, _ = process.extractOne(user_input, categories)
-    return match if score >= threshold else None
+    match, score, _ = process.extractOne(user_input, normalized_categories)
+    return normalized_map[match] if score >= threshold else None
 
 
 # ----------------------------

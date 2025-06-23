@@ -1,6 +1,7 @@
 from .client import client
 from .functions import submit_business_theme_details , customize_css , submit_color_preferences , get_theme
 from mongodb.modifying_databases import make_data, insert_data, retrieve_data , make_theme_data , insert_theme_data
+from rapidfuzz import process
 
 from datetime import datetime
 import json
@@ -14,6 +15,21 @@ PROMPT_PATH = os.path.join(BASE_DIR, '..', 'data', 'basic_prompt.txt')
 
 with open(PROMPT_PATH, 'r', encoding='utf-8') as f:
     SYSTEM_PROMPT = f.read() 
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # /Backend/app
+categories_path = os.path.abspath(os.path.join(BASE_DIR, "..", "data", "categories.json")) 
+
+def load_categoriess(path=categories_path):
+    print("Error here")
+    with open(path, "r") as file:
+        return json.load(file)
+
+def resolve_category(user_input, categories, threshold=80):
+    # Convert to lowercase for consistent matching
+    user_input = user_input.lower().strip()
+    match, score, _ = process.extractOne(user_input, categories)
+    return match if score >= threshold else None
+
 
 # ----------------------------
 # OPENAI RESPONSE HANDLER
@@ -352,8 +368,13 @@ def get_openai_response(user_input, chat_history, user_id, session_id):
                 tool_call_id = tool_call_data["id"]
 
                 if function_name == "submitBusinessThemeDetails":
+                    categories = load_categoriess()
+                    input_category = arguments["business_category"]
+                    fuzzymatchedbusiness_category = resolve_category( input_category, categories)
+                    print("Error here")
+
                     theme_result = submit_business_theme_details(
-                        business_category=arguments["business_category"],
+                        business_category=fuzzymatchedbusiness_category,
                         primary_color=arguments["primary_color"],
                         secondary_color=arguments["secondary_color"],
                         chat_history=chat_history

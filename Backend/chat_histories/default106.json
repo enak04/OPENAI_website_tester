@@ -1,0 +1,146 @@
+[
+  {
+    "role": "system",
+    "content": "You are a friendly and helpful assistant that guides users through setting up their business profile and selecting a website theme.\n\nYour primary goals:\n\n1. Determine the user's business category from this list (case-insensitive match allowed):\n\n   MAKE SURE THERE IS AN EXACT MATCH BETWEEN THE CATEGORY U FIND AND THE ONE LISTED HERE.\n\n   - Pharmacy  \n   - General Store  \n   - Fruits & Vegetables  \n   - Meat Shop  \n   - Bakery Shop  \n   - Mobile Store  \n   - Electronics Shop  \n   - Restaurant  \n   - Book Shop  \n   - Beauty Store  \n   - Clothing Store  \n   - Gift Shop  \n   - Hardware Shop  \n   - Service & Repair  \n   - Saloon Shop  \n   - Computer & Accessories Shop  \n   - Home & Kitchen Appliance  \n   - Photostat & Telecom  \n   - Watch Store\n   - Fashion\n\n2. If the user's input does not exactly match one of the categories, do not ask clarifying questions.\nInstead, intelligently infer the closest valid category or categories from the list and proceed.\n\na.Do not attempt to use or submit a category not present in the allowed list.\n\nb.If the user uses phrases like “fashion,” “grocery,” “printer store,” etc., internally map them to the most semantically appropriate allowed category.\n\nc.You may use semantic similarity and your own judgment to make the best mapping.\n\nd. Submit only valid categories(you can submit multiple) accepted by the backend.\n\n3. If the user's input clearly refers to multiple categories, you may submit each one individually using separate submitBusinessDetails(business_category) calls. Otherwise, submit only the most relevant one.\n\n4. Do not ask the user to confirm or choose from category suggestions. Use your best judgment and proceed. DO NOT EVER MAKE THE USER FEEL THAT WE HAVE LIMITED CATEGORIES BY REVEALING ANY OF THE CATEGORY LIST . \n\n5.When the user gives a business category, do NOT immediately call any tool.\n\n6. Respond warmly and ask:\n   “Great! What primary and secondary colors would you like to use for your website?” \n\n7.If the user denies to give any colour then choose any of your choice .\n\n8. Once you know all three inputs — business category, primary color, and secondary color — make a single function call:\n   submitBusinessThemeDetails(business_category, primary_color, secondary_color)\n\n9.RETURN THE COLOUR IN HEXADECIMAL ONLY\n\n10.You may confirm the selected theme and colors to the user after the tool responds.\n\nAfter determining one or more business categories, wait to collect the user's primary and secondary color preferences.\n\nOnce you have both colors, call submitBusinessThemeDetails separately for each business category. Each call must include the business_category, primary_color, and secondary_color.\n\n11. IMPORTANT : Call submitbusinessdetails by extracting the previous chat data if the user ever wants you to repeat the last set of themes IF AND ONLY IF themes have already been given once . \n\nGuidelines:\n\n- Be conversational and guide the user step by step.\n- If the user's input is ambiguous or vague, use your best judgment to generate a shortlist of likely category matches and internally pick the best one.\n- Never show that list to the user or ask them to choose.\n- Never assume categories not present in the list.\n- If the user goes off-topic, gently steer them back to the business setup process.\n"
+  },
+  {
+    "timestamp": "2025-06-23T15:40:33.505706",
+    "role": "user",
+    "content": "hi I have a salon business"
+  },
+  {
+    "timestamp": "2025-06-23T15:40:35.900730",
+    "role": "assistant",
+    "content": "Got it! Your business category is identified as \"Saloon Shop\". \n\nGreat! What primary and secondary colors would you like to use for your website?"
+  },
+  {
+    "timestamp": "2025-06-23T15:40:49.654772",
+    "role": "user",
+    "content": "red and blue"
+  },
+  {
+    "timestamp": "2025-06-23T15:40:51.584960",
+    "role": "assistant",
+    "tool_calls": [
+      {
+        "id": "call_j5KVeGebAg0qu3XKocUgnXl2",
+        "function": {
+          "arguments": "{\"business_category\":\"Saloon Shop\",\"primary_color\":\"#FF0000\",\"secondary_color\":\"#0000FF\"}",
+          "name": "submitBusinessThemeDetails"
+        },
+        "type": "function"
+      }
+    ],
+    "content": null
+  },
+  {
+    "timestamp": "2025-06-23T15:40:53.380210",
+    "role": "tool",
+    "tool_call_id": "call_j5KVeGebAg0qu3XKocUgnXl2",
+    "name": "submitBusinessThemeDetails",
+    "content": {
+      "timestamp": "2025-06-23T15:40:53.380193",
+      "theme": [
+        {
+          "title": "ShearStyle",
+          "description": "A stylish and clean theme for saloons and grooming shops",
+          "category": "Saloon Shop",
+          "url": "https://themes.example.com/shearstyle",
+          "primary_color": "#FF0000",
+          "secondary_color": "#0000FF"
+        },
+        {
+          "title": "TrimZone",
+          "description": "A minimal theme designed for barbershops and hair salons",
+          "category": "Saloon Shop",
+          "url": "https://themes.example.com/trimzone",
+          "primary_color": "#FF0000",
+          "secondary_color": "#0000FF"
+        },
+        {
+          "title": "Salonique",
+          "description": "A luxury layout for beauty parlors and grooming centers",
+          "category": "Saloon Shop",
+          "url": "https://themes.example.com/salonique",
+          "primary_color": "#FF0000",
+          "secondary_color": "#0000FF"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-06-23T15:40:53.455547",
+    "role": "assistant",
+    "content": "Here's your theme for a **Saloon Shop** website with:\n🎨 Primary: **#FF0000**, Secondary: **#0000FF**\n\nLet me know if you’d like to change anything else!"
+  },
+  {
+    "timestamp": "2025-06-23T15:41:08.436603",
+    "role": "user",
+    "content": "sorry I have an electronics shop"
+  },
+  {
+    "timestamp": "2025-06-23T15:41:10.229035",
+    "role": "assistant",
+    "content": "Got it! Your business category is now identified as \"Electronics Shop\".\n\nGreat! What primary and secondary colors would you like to use for your website?"
+  },
+  {
+    "timestamp": "2025-06-23T15:41:16.415473",
+    "role": "user",
+    "content": "same as before"
+  },
+  {
+    "timestamp": "2025-06-23T15:41:18.381214",
+    "role": "assistant",
+    "tool_calls": [
+      {
+        "id": "call_9jSPsSbvXIjxafGIt1EOzRMM",
+        "function": {
+          "arguments": "{\"business_category\":\"Electronics Shop\",\"primary_color\":\"#FF0000\",\"secondary_color\":\"#0000FF\"}",
+          "name": "submitBusinessThemeDetails"
+        },
+        "type": "function"
+      }
+    ],
+    "content": null
+  },
+  {
+    "timestamp": "2025-06-23T15:41:20.298568",
+    "role": "tool",
+    "tool_call_id": "call_9jSPsSbvXIjxafGIt1EOzRMM",
+    "name": "submitBusinessThemeDetails",
+    "content": {
+      "timestamp": "2025-06-23T15:41:20.298556",
+      "theme": [
+        {
+          "title": "TechBay",
+          "description": "A dynamic theme for electronics and digital devices",
+          "category": "Electronics Shop",
+          "url": "https://themes.example.com/techbay",
+          "primary_color": "#FF0000",
+          "secondary_color": "#0000FF"
+        },
+        {
+          "title": "Electroniq",
+          "description": "A modern and feature-rich theme for electronics showrooms",
+          "category": "Electronics Shop",
+          "url": "https://themes.example.com/electroniq",
+          "primary_color": "#FF0000",
+          "secondary_color": "#0000FF"
+        },
+        {
+          "title": "VoltZone",
+          "description": "A bold and crisp theme for electronic appliances and devices",
+          "category": "Electronics Shop",
+          "url": "https://themes.example.com/voltzone",
+          "primary_color": "#FF0000",
+          "secondary_color": "#0000FF"
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-06-23T15:41:20.339236",
+    "role": "assistant",
+    "content": "Here's your theme for a **Electronics Shop** website with:\n🎨 Primary: **#FF0000**, Secondary: **#0000FF**\n\nLet me know if you’d like to change anything else!"
+  }
+]

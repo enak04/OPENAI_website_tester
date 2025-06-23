@@ -6,6 +6,33 @@ import json
 
 HISTORY_DIR = "chat_histories"
 
+
+def normalize_reply(reply):
+    # Case 1: reply is a list (e.g., multiple tool call results) — pick the first valid one
+    if isinstance(reply, list):
+        for item in reply:
+            if isinstance(item, dict):
+                if isinstance(item.get("content"), list):
+                    content_item = item["content"][0] if item["content"] else {}
+                    return {**content_item, "isuser": "false"}
+                else:
+                    return {**item, "isuser": "false"}
+
+    # Case 2: reply is a dict with content as a list
+    elif isinstance(reply, dict) and isinstance(reply.get("content"), list):
+        content_item = reply["content"][0] if reply["content"] else {}
+        return {**content_item, "isuser": "false"}
+
+    # Case 3: already flat
+    elif isinstance(reply, dict):
+        return {**reply, "isuser": "false"}
+
+    # Fallback
+    return {"content": str(reply), "isuser": "false"}
+
+
+
+
 if not os.path.exists(HISTORY_DIR):
     os.makedirs(HISTORY_DIR)
 
@@ -117,9 +144,12 @@ def chat(user_id):
     save_chat_history(user_id, chat_history)
     
 
-    if isinstance(reply, dict):
-        return jsonify({**reply, "isuser": "false"})
-    else:
-        return jsonify({"reply": reply, "isuser": "false"})
+    # if isinstance(reply, dict):
+    #     return jsonify({**reply, "isuser": "false"})
+    # else:
+    #     return jsonify({"reply": reply, "isuser": "false"})
     
+    return jsonify(normalize_reply(reply))
+
+
 

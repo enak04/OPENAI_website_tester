@@ -92,7 +92,10 @@ def submit_business_details( extracted_categories):
                     matching_themes.append(theme)
 
         
-        return matching_themes
+        return {
+            "theme": matching_themes,
+            "content": "select a theme"
+        }
 
     except FileNotFoundError:
         return {"error": "themes.json file not found"}

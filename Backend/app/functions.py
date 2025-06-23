@@ -1,4 +1,6 @@
 from .client import client
+from .openai_themeselector import get_best_theme
+from mongodb.modifying_databases import retrieve_theme_data
 import json
 import os
 
@@ -15,28 +17,80 @@ import os
 #     except Exception as e:
 #         return []
 
-def submit_business_details( business_category):
+
+def submit_business_theme_details(business_category, primary_color, secondary_color, chat_history):
+    """
+    Given a business category (or list), color preferences, and chat history,
+    returns one or more themes with colors and context applied.
+    """
+    results = []
+
+    # Handle both string and list input
+    if isinstance(business_category, str):
+        business_categories = [business_category]
+    elif isinstance(business_category, list):
+        business_categories = business_category
+    else:
+        raise ValueError("Invalid business_category format")
+
+    # Optional: Get recent user context
+    user_context = "\n".join(
+        msg["content"]
+        for msg in reversed(chat_history)
+        if msg["role"] == "user"
+    )[-500:]  # limit to last 500 chars
+
+    themes = submit_business_details(business_categories)
+
+    print("Themes received are " , themes)
+    for category in business_categories:
+        # 1. Get matching themes
+        themes = submit_business_details(category)
+
+        # 2. Build input prompt
+        user_request = (
+            f"Choose a theme for a '{category}' website with:\n"
+            f"- Primary color: {primary_color}\n"
+            f"- Secondary color: {secondary_color}\n"
+        )
+        if user_context:
+            user_request += f"\nUser context:\n{user_context}"
+
+        # 3. Select best theme
+        best_theme = get_best_theme(user_request, themes)
+
+        # 4. Append additional data
+        for theme in best_theme:
+            theme["primary_color"] = primary_color
+            theme["secondary_color"] = secondary_color
+
+        results.append(best_theme)
+
+    return results if len(results) > 1 else results[0]
+
+def submit_business_details( extracted_categories):
     # Construct the relative path to themes.json (2 levels up from this file)
     
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # /Backend/app
     themes_path = os.path.abspath(os.path.join(BASE_DIR, "..", "data", "themes.json")) 
-    print("Base directory is :" , BASE_DIR)
-    print("Looking for themes.json at:", themes_path)
-    print("Getting theme from:", themes_path)
-    print("Does file exist?", os.path.exists(themes_path))
+    # print("Base directory is :" , BASE_DIR)
+    # print("Looking for themes.json at:", themes_path)
+    # print("Getting theme from:", themes_path)
+    # print("Does file exist?", os.path.exists(themes_path))
 
     try:
-
+        if isinstance(extracted_categories, str):
+            extracted_categories = [extracted_categories]
         matching_themes = []
-        print(business_category)
+        print(extracted_categories)
 
         with open(themes_path, 'r') as file:
             themes = json.load(file)
             for theme in themes:
-                if theme.get('category', '').strip().lower() == business_category.strip().lower():
+                theme_category = theme.get('category', '').strip().lower()
+                if theme_category in [cat.strip().lower() for cat in extracted_categories]:
                     matching_themes.append(theme)
 
-        print(matching_themes)
         
         return matching_themes
 
@@ -46,15 +100,25 @@ def submit_business_details( business_category):
         return {"error": "Invalid JSON format in themes.json"}
     except Exception as e:
         return {"error": str(e)}
-
-
-def customize_css(property_to_change, new_value):
+    
+def get_theme(theme_name):
+    theme_name = ""
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     css_path = os.path.join(BASE_DIR, '..', 'data', 'base_theme_template.css')
 
     try:
         with open(css_path, 'r', encoding='utf-8') as f:
             css_content = f.read()
+            return css_content
+
+    except Exception as e:
+        return f"Error customizing CSS: {str(e)}"
+
+
+def customize_css(property_to_change, new_value , user_id , session_id):
+
+    try:
+        css_content = retrieve_theme_data(user_id , session_id)
 
         prompt = f"""
                 Below is a CSS file.
@@ -67,7 +131,7 @@ def customize_css(property_to_change, new_value):
                 STRICTLY ALWAYS CLARIFY . For an example , say if you are confused between primary and secondary button ask the user
                 to give more clues about which button
 
-                Return ONLY the **updated CSS rules**, without any explanations, comments, or additional formatting. Return valid CSS only, without backticks, without markdown, and without comments.
+                Return the full updated CSS, without any explanations, comments, or additional formatting. Return valid CSS only, without backticks, without markdown, and without comments.
                 {css_content}
                 """
         
@@ -83,3 +147,10 @@ def customize_css(property_to_change, new_value):
 
     except Exception as e:
         return f"Error customizing CSS: {str(e)}"
+    
+
+def submit_color_preferences(primary_color: str, secondary_color: str):
+    return {
+        "primary_color": primary_color,
+        "secondary_color": secondary_color
+    }

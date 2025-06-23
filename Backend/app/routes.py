@@ -100,6 +100,7 @@ def hello():
 @api.route('/chat/<user_id>', methods=['POST'])
 
 def chat(user_id):
+    session_id = "001"
     data = request.get_json()
     user_message = data.get("message", "")
 
@@ -110,7 +111,7 @@ def chat(user_id):
     chat_history = load_chat_history(user_id)
 
     # Get OpenAI reply
-    reply = get_openai_response(user_message, chat_history)
+    reply = get_openai_response(user_message, chat_history , user_id , session_id)
 
     # Save updated history
     save_chat_history(user_id, chat_history)

@@ -1,5 +1,10 @@
-Flask 
+Flask
 openai
 python-dotenv
 gunicorn
 flask-cors
+azure-search-documents
+azure-core
+azure-storage-blob
+azure-identity
+pymongo[srv]==3.12

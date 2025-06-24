@@ -42,10 +42,12 @@ def submit_business_theme_details(business_category, primary_color, secondary_co
 
     themes = submit_business_details(business_categories)
 
-    print("Themes received are " , themes)
+    
     for category in business_categories:
         # 1. Get matching themes
         themes = submit_business_details(category)
+
+        print("Themes received from submit_business_details are " , themes)
 
         # 2. Build input prompt
         user_request = (
@@ -53,8 +55,11 @@ def submit_business_theme_details(business_category, primary_color, secondary_co
             f"- Primary color: {primary_color}\n"
             f"- Secondary color: {secondary_color}\n"
         )
-        if user_context:
-            user_request += f"\nUser context:\n{user_context}"
+        print("user request is : " , user_request , "\n")
+        # if user_context:
+        #     user_request += f"\nUser context:\n{user_context}"
+
+        print("User request is : \n" , user_request , "\n")
 
         # 3. Select best theme
         best_theme = get_best_theme(user_request, themes)

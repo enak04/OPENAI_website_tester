@@ -16,7 +16,7 @@ with open(PROMPT_PATH, 'r', encoding='utf-8') as f:
 # FUNCTION TO GET BEST THEMES
 # ----------------------------
 def get_best_theme(user_request: str, theme_list: list[dict]) -> list[dict]:
-    print(theme_list)
+    print("Theme_list is :" , theme_list , "\n") 
     response = client.chat.completions.create(
         model="gpt-4o-theme-customization",
         messages=[
@@ -27,11 +27,18 @@ def get_best_theme(user_request: str, theme_list: list[dict]) -> list[dict]:
     )
 
     # Extract the response content
-    content = response.choices[0].message.content
+    print("Response is :\n" , response.choices[0].message)
+    content = response.choices[0].message.content.strip()
     print("Raw response:\n", content)
 
     try:
-        # Try parsing directly
+        # Remove triple backticks if present
+        if content.startswith("```"):
+            content = content.strip("`")  # remove backticks
+            content = content.strip("json")  # remove json hint
+            content = content.strip()  # trim whitespace
+
+        # Now parse JSON
         return json.loads(content)
     except json.JSONDecodeError:
         # Fallback: Extract JSON list using regex

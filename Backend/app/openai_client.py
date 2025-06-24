@@ -205,7 +205,7 @@ def get_openai_response(user_input, chat_history, user_id, session_id):
                     make_theme_data(css_to_add, user_id, session_id)
 
                     tool_call_results.append(result)
-                    
+
 
                 elif function_name == "customizeCSS":
                     css_result = customize_css(**arguments, user_id=user_id, session_id=session_id)
@@ -213,8 +213,7 @@ def get_openai_response(user_input, chat_history, user_id, session_id):
                     css_msg = {
                         "timestamp": datetime.now().isoformat(),
                         "role": "assistant",
-                        "content": css_result if not css_result.startswith("* {") else None,
-                        "css": css_result if css_result.startswith("* {") else None
+                        "css" : css_result
                     }
 
                     chat_history.append(css_msg)

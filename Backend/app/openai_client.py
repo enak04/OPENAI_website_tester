@@ -86,7 +86,7 @@ tools = [
         "type": "function",
         "function": {
             "name": "customizeCSS",
-            "description": "Customize part of the selected theme's CSS.",
+            "description": "Customize part of the selected theme's CSS.ONLY call this function when you are sure of what to modify",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -218,9 +218,7 @@ def get_openai_response(user_input, chat_history, user_id, session_id):
 
                     chat_history.append(css_msg)
                     insert_data(css_msg, user_id, session_id)
-
-                    if css_result.startswith("* {"):
-                        insert_theme_data(css_result, user_id, session_id)
+                    insert_theme_data(css_result, user_id, session_id)
 
                     tool_call_results.append(css_msg)
 

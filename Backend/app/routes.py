@@ -138,7 +138,7 @@ def chat(user_id):
         # store_id = user_id
         # result = call_fetch_html_css_api(store_url , store_id , base_url="http://127.0.0.1:5000")
         css_result = get_css_by_theme_name(selected_theme.lower())
-        store_css_for_user(user_id , selected_theme , css_result)
+        store_css_for_user(user_id , selected_theme.lower() , css_result)
         return {"timestamp" : datetime.now().isoformat(), "content" : "Here's your theme!"}
 
     if not user_message:

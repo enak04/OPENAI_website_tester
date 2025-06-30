@@ -10,12 +10,12 @@ app = create_app()
 
 if __name__ == '__main__':
 
-    app.config['ENV'] = 'development'
-    #app.config['ENV'] = 'production'
-    #app.config['DEBUG'] = False
-    app.config['DEBUG'] = True
+    # app.config['ENV'] = 'development'
+    app.config['ENV'] = 'production'
+    app.config['DEBUG'] = False
+    # app.config['DEBUG'] = True
     
     port = int(os.environ.get("PORT", 4000))
-    # app.run(host="0.0.0.0", port=port)
-    app.run(port=4000, debug=False, use_reloader=False)
+    app.run(host="0.0.0.0", port=port)
+    # app.run(port=4000, debug=False, use_reloader=False)
 

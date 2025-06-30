@@ -1,0 +1,3 @@
+{
+  "css": ".footer-type-3 .sh-footer-icon{width:20px;height:20px;margin-right:10px}.contact-info-ctn .sh-footer-icon{margin-right:12px}.sh-header-submenu .links{padding:0!important}.sh-banner-collection-card > a > div > div > p{display:none}.sh-banner-collection-card > a > div > div > p > svg{display:none}.sh-product-card-discount-tag{top:22px !important;clip-path:polygon(100% 0,100% 50%,100% 100%,0% 100%,12% 50%,0% 0%);width:60px;text-align:center;border-radius:0px}.sh-product-discount-tag{font-weight:400;clip-path:polygon(100% 0,100% 50%,100% 100%,0% 100%,12% 50%,0% 0%);width:64px;text-align:center;border-radius:0px}.sh-mini-banner-collection-card > a > div > div > div > svg{display:none}.sh-mini-banner-collection-card > a > div > div > div > p{display:none}"
+}

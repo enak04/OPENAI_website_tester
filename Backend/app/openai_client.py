@@ -1,5 +1,5 @@
 from .client import client
-from .functions import submit_business_theme_details , customize_css , submit_color_preferences , get_theme
+from .functions import *
 from mongodb.modifying_databases import make_data, insert_data, retrieve_data , make_theme_data , insert_theme_data
 from rapidfuzz import process
 
@@ -81,25 +81,21 @@ tools = [
                 "required": ["business_category", "primary_color", "secondary_color"]
             }
         }
-    },
+    }, 
     {
-        "type": "function",
-        "function": {
-            "name": "customizeCSS",
-            "description": "Customize part of the selected theme's CSS.ONLY call this function when you are sure of what to modify",
+        "type" : "function",
+        "function" : {
+            "name": "edit_css",
+            "description": "Use this when the user wants to edit their website theme's CSS based on a prompt using AI suggestions.",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "property_to_change": {
+                    "prompt": {
                         "type": "string",
-                        "description": "The CSS property to change (e.g., background color)."
-                    },
-                    "new_value": {
-                        "type": "string",
-                        "description": "The new value for the CSS property (e.g., 'red')."
+                        "description": "The prompt describing what the user wants to change in their website's appearance."
                     }
                 },
-                "required": ["property_to_change", "new_value"]
+                "required": ["prompt"]
             }
         }
     }
@@ -201,27 +197,33 @@ def get_openai_response(user_input, chat_history, user_id, session_id):
                     insert_data(tool_msg, user_id, session_id)
 
                     # Save theme CSS
-                    css_to_add = get_theme("hi")
-                    make_theme_data(css_to_add, user_id, session_id)
+                    # css_to_add = get_theme("hi")
+                    # make_theme_data(css_to_add, user_id, session_id)
+                    # chat_history.append(tool_msg)
+                    # insert_data(tool_msg, user_id, session_id)
 
                     tool_call_results.append(result)
 
 
-                elif function_name == "customizeCSS":
-                    css_result = customize_css(**arguments, user_id=user_id, session_id=session_id)
-
-                    css_msg = {
+                elif function_name == "edit_css":
+                    print("Edit_css is being called")
+                    css_result = edit_css(**arguments , user_id = user_id)
+                    result = {
+                            "timestamp": datetime.now().isoformat(),
+                            **css_result
+                        }
+                    tool_msg = {
                         "timestamp": datetime.now().isoformat(),
-                        "role": "assistant",
-                        "css" : css_result
+                        "role": "tool",
+                        "tool_call_id": tool_call_id,
+                        "name": function_name,
+                        "content": css_result  # ✅ keep as dict
                     }
+                    chat_history.append(tool_msg)
+                    insert_data(tool_msg, user_id, session_id)
+                    tool_call_results.append(result)
 
-                    chat_history.append(css_msg)
-                    insert_data(css_msg, user_id, session_id)
-                    insert_theme_data(css_result, user_id, session_id)
-
-                    tool_call_results.append(css_msg)
-
+            
             return tool_call_results  # ✅ return all tool responses
 
         # ---------------- NO TOOL CALL CASE ----------------

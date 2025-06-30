@@ -1,6 +1,7 @@
-from .client import client
+from app.client import client
 from .openai_themeselector import get_best_theme
-from mongodb.modifying_databases import retrieve_theme_data
+from mongodb.modifying_databases import retrieve_css_for_user , retrieve_theme_data
+from .query_analyzer import analyze_prompt
 import json
 import os
 
@@ -162,3 +163,23 @@ def submit_color_preferences(primary_color: str, secondary_color: str):
         "primary_color": primary_color,
         "secondary_color": secondary_color
     }
+
+def edit_css(user_id: str, prompt: str):
+
+    # theme_data = get_theme_by_userid(user_id)
+    # if not theme_data or "css" not in theme_data:
+    #     return jsonify({"error": "No theme found for user"}), 404
+
+    # original_css = theme_data["css"]
+    original_css = retrieve_css_for_user(user_id)
+    print(original_css)
+    print("\n\n\nPrompt is : " , prompt , "\n")
+
+    result = analyze_prompt(prompt, original_css)
+    print("\n\n\nCss changes are : " , result["content"] , "\n")
+
+    if isinstance(result["content"], list):
+        return {"user": user_id, "content": result["content"][0]}
+    else:
+        return {"user": user_id, "css": result["content"]}
+

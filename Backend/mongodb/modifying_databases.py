@@ -1,9 +1,12 @@
 import os
 import certifi
 from pymongo import MongoClient
+import json
+from datetime import datetime
+
 
 # Always store secrets like DB URI in environment variables
-uri = os.environ.get("MONGO_URI", "fallback-uri-if-needed")
+uri = os.environ.get("MONGO_URI")
 
 client = MongoClient(
     uri,
@@ -14,6 +17,7 @@ client = MongoClient(
 db = client['Backend']
 chat_collection = db["chat_history"]
 theme_collection = db["themes_history"]
+theme_database = db["themes_database"]
 
 
 
@@ -72,6 +76,127 @@ def retrieve_theme_data(user_id: str, session_id: str):
         return doc["css"]  # ✅ Return CSS string directly
     else:
         return ""
+
+
+# def get_css_from_theme_name(theme_name: str) -> str:
+#     """
+#     Reads `{theme_name}_css.json` from `themes_dir` and returns CSS string.
+#     """
+#     # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
+#     # themes_dir = os.path.join(BASE_DIR, "html_css_cache")
+#     # json_path = os.path.join(themes_dir, f"{theme_name}_css.json")
+#     # print(json_path)
+#     # if not os.path.exists(json_path):
+#     #     raise FileNotFoundError(f"No CSS JSON file found for theme: {theme_name}")
+
+#     # with open(json_path, 'r') as f:
+#     #     data = json.load(f)
+
+#     # css_content = data.get("css", "")
+#     # if not css_content:
+#     #     raise ValueError(f"No 'css' content found in {json_path}")
+
+#     # return css_content
+
+
+# def upload_theme_css(theme_name: str):
+#     """
+#     Reads the {theme_name}_css.json from disk and uploads it to MongoDB.
+#     Fields: theme, css, created_at, updated_at.
+#     If the theme already exists, it is updated.
+#     """
+
+#     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
+#     themes_dir = os.path.join(BASE_DIR, "html_css_cache")
+#     json_path = os.path.join(themes_dir, f"{theme_name}_css.json")
+
+#     if not os.path.exists(json_path):
+#         raise FileNotFoundError(f"No CSS JSON file found for theme: {theme_name}")
+
+#     with open(json_path, 'r', encoding='utf-8') as f:
+#         data = json.load(f)
+
+#     css_content = data.get("css", "")
+#     if not css_content:
+#         raise ValueError(f"No 'css' field found in {json_path}")
+
+#     theme_database.update_one(
+#         {"theme": theme_name},
+#         {
+#             "$set": {
+#                 "css": css_content,
+#                 "updated_at": datetime.now()
+#             },
+#             "$setOnInsert": {
+#                 "theme": theme_name,
+#                 "created_at": datetime.now()
+#             }
+#         },
+#         upsert=True
+#     )
+
+#     print(f"Uploaded CSS for theme: {theme_name}")
+
+def get_css_by_theme_name(theme_name: str) -> str:
+    """
+    Fetches the CSS string for a given theme_name from MongoDB's themes_database collection.
+
+    Parameters:
+        theme_name (str): The name of the theme to look up.
+
+    Returns:
+        str: The CSS string if found.
+
+    Raises:
+        ValueError: If the theme is not found or CSS is missing.
+    """
+    doc = theme_database.find_one({"theme_name": theme_name}, {"_id": 0, "css": 1})
+    
+    if not doc or "css" not in doc:
+        raise ValueError(f"No CSS found for theme: {theme_name}")
+    
+    return doc["css"]
+
+
+
+
+def store_css_for_user(user_id: str, theme_name: str, css_content: str):
+    """
+    Stores a copy of the theme CSS under `themes_history` for the user.
+    If a document already exists, updates it.
+    """
+    
+    theme_collection.update_one(
+        {"user_id": user_id},
+        {
+            "$set": {
+                "theme_name": theme_name,
+                "css": css_content,
+                "updated_at": datetime.now()
+            },
+            "$setOnInsert": {
+                "created_at": datetime.now()
+            }
+        },
+        upsert=True
+    )
+    print(f"Stored CSS for user_id={user_id}, theme={theme_name}.")
+
+
+def retrieve_css_for_user(user_id: str) -> str:
+    """
+    Retrieves the stored CSS for a given user_id from `themes_history`.
+    Returns the CSS string if found, otherwise raises an error.
+    """
+    record = theme_collection.find_one({"user_id": user_id})
+
+    if not record or "css" not in record:
+        raise ValueError(f"No stored CSS found for user_id: {user_id}")
+
+    css_content = record["css"]
+    return css_content
+
+
 
 
 

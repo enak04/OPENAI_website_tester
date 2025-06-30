@@ -21,4 +21,7 @@ chat_collection.create_index([("user_id", 1), ("chat_session_id", 1)])
 themes_collection = db["themes_history"]
 themes_collection.create_index([("user_id", 1)])
 
+themes_collection = db["themes_database"]
+themes_collection.create_index([("theme_name", 1)])
+
 

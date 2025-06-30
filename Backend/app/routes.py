@@ -1,5 +1,7 @@
 from flask import Blueprint, request, jsonify
 from .openai_client import get_openai_response
+from .azure_services.fetching_html_css import call_fetch_html_css_api
+from mongodb.modifying_databases import *
 import re
 import os
 import json
@@ -130,6 +132,14 @@ def chat(user_id):
     session_id = "001"
     data = request.get_json()
     user_message = data.get("message", "")
+    selected_theme = data.get("selected_theme")
+    if selected_theme:
+        # store_url = f"https://{selected_theme}.store.shoopy.in/"
+        # store_id = user_id
+        # result = call_fetch_html_css_api(store_url , store_id , base_url="http://127.0.0.1:5000")
+        css_result = get_css_by_theme_name(selected_theme)
+        store_css_for_user(user_id , selected_theme , css_result)
+        return {"timestamp" : datetime.now().isoformat(), "content" : "Here's your theme!"}
 
     if not user_message:
         return jsonify({"error": "No message provided"}), 400

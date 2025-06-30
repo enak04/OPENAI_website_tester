@@ -5,7 +5,7 @@ import json
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # /Backend/app/azure_services
 themes2_path = os.path.abspath(os.path.join(BASE_DIR, "..","..", "data", "themes2.json")) 
 
-def call_fetch_html_css_api(store_url: str, store_id: str, base_url: str = "http://127.0.0.1:4000"):
+def call_fetch_html_css_api(store_url: str, store_id: str, base_url: str = "http://127.0.0.1:5000"):
     endpoint = f"{base_url}/fetch-html-css-and-index"
     payload = {
         "url": store_url,

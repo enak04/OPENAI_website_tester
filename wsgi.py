@@ -1,5 +1,6 @@
 import os
 import sys
+from flask_cors import CORS
 
 # Adds the Backend folder to sys.path
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
@@ -7,6 +8,7 @@ sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 from app import create_app
 
 app = create_app()
+CORS(app)  # Enable CORS for all routes
 
 if __name__ == '__main__':
 

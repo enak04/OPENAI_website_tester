@@ -1,0 +1,10 @@
+# render.yaml (if Backend is root)
+services:
+  - type: web
+    name: chatbot-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn wsgi:app
+    envVars:
+      - key: PORT
+        value: 10000

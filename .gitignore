@@ -1,0 +1,7 @@
+*.pyc
+.env
+__pycache__/
+*.py[cod]
+*$py.class
+chat_histories/*
+.venv/*

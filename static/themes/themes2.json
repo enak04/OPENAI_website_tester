@@ -1,0 +1,44 @@
+[
+  {
+    "title": "FreshGo",
+    "description": "A vibrant and clean theme ideal for fresh produce and organic food sellers",
+    "category": "Fruits & Vegetables",
+    "url": "https://freshgo.store.shoopy.in/"
+  },
+  {
+    "title": "BagGo",
+    "description": "A stylish theme designed for trendy bags and travel accessories",
+    "category": "Fashion",
+    "url": "https://baggo.store.shoopy.in/"
+  },
+  {
+    "title": "FashionGo",
+    "description": "A modern and elegant theme perfect for clothing and fashion retailers",
+    "category": "Clothing Store",
+    "url": "https://fashiongo.store.shoopy.in/"
+  },
+  {
+    "title": "WatchGo",
+    "description": "A sleek and precise theme tailored for watch and accessory stores",
+    "category": "Watch Store",
+    "url": "https://watchgo.store.shoopy.in/"
+  },
+  {
+    "title": "BakeryGo",
+    "description": "A warm and inviting theme ideal for bakeries and cake shops",
+    "category": "Bakery Shop",
+    "url": "https://bakerygo.store.shoopy.in/"
+  },
+  {
+    "title": "ClassicGo",
+    "description": "A versatile and refined theme suitable for general or lifestyle stores",
+    "category": "General Store",
+    "url": "https://classicgo.store.shoopy.in/"
+  },
+  {
+    "title": "Janghel",
+    "description": "A versatile online store for fashion, footwear, and home essentials.",
+    "category": "Fashion",
+    "url": "https://janghel-ki-dukaan.stage2.store.shoopy.in/"
+  }
+]

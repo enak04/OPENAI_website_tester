@@ -1,0 +1,344 @@
+[
+  {
+    "title": "MediCare",
+    "description": "A clean and reliable theme for pharmacies and drugstores",
+    "category": "Pharmacy",
+    "url": "https://themes.example.com/medicare"
+  },
+  {
+    "title": "PharmaPlus",
+    "description": "A minimal yet professional theme for medical and wellness stores",
+    "category": "Pharmacy",
+    "url": "https://themes.example.com/pharmaplus"
+  },
+  {
+    "title": "WellnessCart",
+    "description": "A fresh theme focused on health essentials and pharmacy goods",
+    "category": "Pharmacy",
+    "url": "https://themes.example.com/wellnesscart"
+  },
+  {
+    "title": "GenMart",
+    "description": "A flexible theme perfect for daily essentials and general stores",
+    "category": "General Store",
+    "url": "https://themes.example.com/genmart"
+  },
+  {
+    "title": "DailyNeeds",
+    "description": "A simple and user-friendly theme for your neighborhood store",
+    "category": "General Store",
+    "url": "https://themes.example.com/dailyneeds"
+  },
+  {
+    "title": "QuickShop",
+    "description": "An efficient and lightweight theme for everyday shopping",
+    "category": "General Store",
+    "url": "https://themes.example.com/quickshop"
+  },
+  {
+    "title": "FreshGo",
+    "description": "A vibrant and clean theme ideal for fresh produce and organic food sellers",
+    "category": "Fruits & Vegetables",
+    "url": "https://freshgo.store.shoopy.in/"
+  },
+  {
+    "title": "VeggieVibe",
+    "description": "A bright, nature-inspired theme for organic produce sellers",
+    "category": "Fruits & Vegetables",
+    "url": "https://themes.example.com/veggievibe"
+  },
+  {
+    "title": "FreshRoots",
+    "description": "A clean and rustic theme tailored for local fruit and veggie markets",
+    "category": "Fruits & Vegetables",
+    "url": "https://themes.example.com/freshroots"
+  },
+  {
+    "title": "Meatify",
+    "description": "A bold and hygienic theme for butchers and meat shops",
+    "category": "Meat Shop",
+    "url": "https://themes.example.com/meatify"
+  },
+  {
+    "title": "ButcherBay",
+    "description": "A robust theme for premium meat and poultry sellers",
+    "category": "Meat Shop",
+    "url": "https://themes.example.com/butcherbay"
+  },
+  {
+    "title": "RedCuts",
+    "description": "A clean-cut theme focused on quality meats and cold storage products",
+    "category": "Meat Shop",
+    "url": "https://themes.example.com/redcuts"
+  },
+  {
+    "title": "BakeWell",
+    "description": "A warm and cozy theme for bakeries and patisserie stores",
+    "category": "Bakery Shop",
+    "url": "https://themes.example.com/bakewell"
+  },
+  {
+    "title": "SweetCrust",
+    "description": "A delightful theme for cake shops, cafes, and bakeries",
+    "category": "Bakery Shop",
+    "url": "https://themes.example.com/sweetcrust"
+  },
+  {
+    "title": "OvenTreat",
+    "description": "A modern theme for artisan bakeries and pastry boutiques",
+    "category": "Bakery Shop",
+    "url": "https://themes.example.com/oventreat"
+  },
+  {
+    "title": "Mobistore",
+    "description": "A sleek and modern theme for mobile and gadget shops",
+    "category": "Mobile Store",
+    "url": "https://themes.example.com/mobistore"
+  },
+  {
+    "title": "PhoneDock",
+    "description": "A minimalist theme for mobile accessories and smartphones",
+    "category": "Mobile Store",
+    "url": "https://themes.example.com/phonedock"
+  },
+  {
+    "title": "GadgetGo",
+    "description": "A high-tech theme for mobile devices and smart accessories",
+    "category": "Mobile Store",
+    "url": "https://themes.example.com/gadgetgo"
+  },
+  {
+    "title": "TechBay",
+    "description": "A dynamic theme for electronics and digital devices",
+    "category": "Electronics Shop",
+    "url": "https://themes.example.com/techbay"
+  },
+  {
+    "title": "Electroniq",
+    "description": "A modern and feature-rich theme for electronics showrooms",
+    "category": "Electronics Shop",
+    "url": "https://themes.example.com/electroniq"
+  },
+  {
+    "title": "VoltZone",
+    "description": "A bold and crisp theme for electronic appliances and devices",
+    "category": "Electronics Shop",
+    "url": "https://themes.example.com/voltzone"
+  },
+  {
+    "title": "DineIn",
+    "description": "An elegant and appetizing theme for restaurants and eateries",
+    "category": "Restaurant",
+    "url": "https://themes.example.com/dinein"
+  },
+  {
+    "title": "TastyBite",
+    "description": "A vibrant and welcoming theme for cafes and food joints",
+    "category": "Restaurant",
+    "url": "https://themes.example.com/tastybite"
+  },
+  {
+    "title": "ForkSpoon",
+    "description": "A classy and responsive theme for fine-dining establishments",
+    "category": "Restaurant",
+    "url": "https://themes.example.com/forkspoon"
+  },
+  {
+    "title": "BookBarn",
+    "description": "A neat and intellectual theme for book shops and stationery stores",
+    "category": "Book Shop",
+    "url": "https://themes.example.com/bookbarn"
+  },
+  {
+    "title": "ReadMore",
+    "description": "A soft, calming theme for book lovers and reading spaces",
+    "category": "Book Shop",
+    "url": "https://themes.example.com/readmore"
+  },
+  {
+    "title": "LitNest",
+    "description": "A modern and organized theme for bookstores and e-readers",
+    "category": "Book Shop",
+    "url": "https://themes.example.com/litnest"
+  },
+  {
+    "title": "GlowUp",
+    "description": "A trendy and vibrant theme for beauty and cosmetic stores",
+    "category": "Beauty Store",
+    "url": "https://themes.example.com/glowup"
+  },
+  {
+    "title": "BlushBar",
+    "description": "A chic and feminine theme for skincare and makeup retailers",
+    "category": "Beauty Store",
+    "url": "https://themes.example.com/blushbar"
+  },
+  {
+    "title": "RadiantLook",
+    "description": "An elegant, image-driven theme for luxury beauty stores",
+    "category": "Beauty Store",
+    "url": "https://themes.example.com/radiantlook"
+  },
+  {
+    "title": "StyleRack",
+    "description": "A fashion-forward theme for clothing and apparel shops",
+    "category": "Clothing Store",
+    "url": "https://themes.example.com/stylerack"
+  },
+  {
+    "title": "Janghel",
+    "description": "A versatile online store for fashion, footwear, and home essentials.",
+    "category": "Fashion",
+    "url": "https://janghel-ki-dukaan.stage2.store.shoopy.in/"
+  },
+  {
+    "title": "UrbanWear",
+    "description": "A bold and trendy theme for fashion-conscious shoppers",
+    "category": "Clothing Store",
+    "url": "https://themes.example.com/urbanwear"
+  },
+  {
+    "title": "GiftNest",
+    "description": "A charming and festive theme for gift shops and novelty stores",
+    "category": "Gift Shop",
+    "url": "https://themes.example.com/giftnest"
+  },
+  {
+    "title": "SurpriseBox",
+    "description": "A colorful and playful theme for gifts, toys, and party supplies",
+    "category": "Gift Shop",
+    "url": "https://themes.example.com/surprisebox"
+  },
+  {
+    "title": "Gifty",
+    "description": "A modern layout for unique, handpicked gift items",
+    "category": "Gift Shop",
+    "url": "https://themes.example.com/gifty"
+  },
+  {
+    "title": "ToolTown",
+    "description": "A sturdy and practical theme for hardware and home improvement stores",
+    "category": "Hardware Shop",
+    "url": "https://themes.example.com/tooltown"
+  },
+  {
+    "title": "FixDepot",
+    "description": "A utilitarian theme for construction tools and hardware",
+    "category": "Hardware Shop",
+    "url": "https://themes.example.com/fixdepot"
+  },
+  {
+    "title": "BuildMate",
+    "description": "A bold theme for professional-grade tools and materials",
+    "category": "Hardware Shop",
+    "url": "https://themes.example.com/buildmate"
+  },
+  {
+    "title": "FixItPro",
+    "description": "A functional and tech-savvy theme for service and repair centers",
+    "category": "Service & Repair",
+    "url": "https://themes.example.com/fixitpro"
+  },
+  {
+    "title": "RepairDesk",
+    "description": "A clear and confident theme for gadget and device repairs",
+    "category": "Service & Repair",
+    "url": "https://themes.example.com/repairdesk"
+  },
+  {
+    "title": "QuickFix",
+    "description": "A responsive layout for small electronics and mobile repair stores",
+    "category": "Service & Repair",
+    "url": "https://themes.example.com/quickfix"
+  },
+  {
+    "title": "ShearStyle",
+    "description": "A stylish and clean theme for saloons and grooming shops",
+    "category": "Saloon Shop",
+    "url": "https://themes.example.com/shearstyle"
+  },
+  {
+    "title": "TrimZone",
+    "description": "A minimal theme designed for barbershops and hair salons",
+    "category": "Saloon Shop",
+    "url": "https://themes.example.com/trimzone"
+  },
+  {
+    "title": "Salonique",
+    "description": "A luxury layout for beauty parlors and grooming centers",
+    "category": "Saloon Shop",
+    "url": "https://themes.example.com/salonique"
+  },
+  {
+    "title": "CompuCart",
+    "description": "A futuristic theme for computer and accessories shops",
+    "category": "Computer & Accessories shop",
+    "url": "https://themes.example.com/compucart"
+  },
+  {
+    "title": "BitBazaar",
+    "description": "A functional layout for laptops, desktops, and components",
+    "category": "Computer & Accessories shop",
+    "url": "https://themes.example.com/bitbazaar"
+  },
+  {
+    "title": "TechGear",
+    "description": "An efficient, clean theme for gaming and computing accessories",
+    "category": "Computer & Accessories shop",
+    "url": "https://themes.example.com/techgear"
+  },
+  {
+    "title": "HomeEdge",
+    "description": "A tasteful and practical theme for home and kitchen appliances",
+    "category": "Home & Kitchen Appliance",
+    "url": "https://themes.example.com/homeedge"
+  },
+  {
+    "title": "KitchenCrew",
+    "description": "A family-friendly layout for cookware and home electronics",
+    "category": "Home & Kitchen Appliance",
+    "url": "https://themes.example.com/kitchencrew"
+  },
+  {
+    "title": "AppliMart",
+    "description": "A modern UI for selling home improvement gadgets and appliances",
+    "category": "Home & Kitchen Appliance",
+    "url": "https://themes.example.com/applimart"
+  },
+  {
+    "title": "CopyConnect",
+    "description": "A clean and precise theme for photostat and telecom service shops",
+    "category": "Photostat & Telecom",
+    "url": "https://themes.example.com/copyconnect"
+  },
+  {
+    "title": "PrintCall",
+    "description": "A compact theme combining printing, scanning, and phone services",
+    "category": "Photostat & Telecom",
+    "url": "https://themes.example.com/printcall"
+  },
+  {
+    "title": "Teleshop",
+    "description": "A dual-purpose layout for telecom and office printing needs",
+    "category": "Photostat & Telecom",
+    "url": "https://themes.example.com/teleshop"
+  },
+  {
+    "title": "TimeAura",
+    "description": "A classic and elegant theme for watch retailers",
+    "category": "Watch Store",
+    "url": "https://themes.example.com/timeaura"
+  },
+  {
+    "title": "Wristly",
+    "description": "A sleek, minimal design for premium and digital watches",
+    "category": "Watch Store",
+    "url": "https://themes.example.com/wristly"
+  },
+  {
+    "title": "TickTock",
+    "description": "A theme that blends modern style with timeless elegance",
+    "category": "Watch Store",
+    "url": "https://themes.example.com/ticktock"
+  }
+]

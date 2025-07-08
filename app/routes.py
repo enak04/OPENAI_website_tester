@@ -140,7 +140,7 @@ def chat(user_id):
         css_result = get_css_by_theme_name(selected_theme.lower())
         json_result = get_json_by_theme_name(selected_theme.lower())
         store_css_and_json_for_user(user_id , css_result , json_result , json_id)
-        return {"timestamp" : datetime.now().isoformat(), "content" : "Here's your theme!" , "isuser" : "false"}
+        user_message =  "Edit my website theme when " + user_message
 
     if not user_message:
         return jsonify({"error": "No message provided"}), 400
@@ -159,6 +159,9 @@ def chat(user_id):
     #     return jsonify({**reply, "isuser": "false"})
     # else:
     #     return jsonify({"reply": reply, "isuser": "false"})
+
+    if selected_theme:
+        return {"timestamp" : datetime.now().isoformat(), "content" : "Here's your theme!" , "isuser" : "false"}
     
     return jsonify(normalize_reply(reply))
 

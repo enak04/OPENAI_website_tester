@@ -141,6 +141,7 @@ def chat(user_id):
         json_result = get_json_by_theme_name(selected_theme.lower())
         store_css_and_json_for_user(user_id , css_result , json_result , json_id)
         user_message =  "Edit my website theme when " + user_message
+    print("\nuser message is : " , user_message)
 
     if not user_message:
         return jsonify({"error": "No message provided"}), 400

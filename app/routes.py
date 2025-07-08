@@ -160,9 +160,6 @@ def chat(user_id):
     #     return jsonify({**reply, "isuser": "false"})
     # else:
     #     return jsonify({"reply": reply, "isuser": "false"})
-
-    if selected_theme:
-        return jsonify({"timestamp" : datetime.now().isoformat(), "content" : "Here's your theme!" , "isuser" : "false"})
     
     return jsonify(normalize_reply(reply))
 

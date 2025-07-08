@@ -132,12 +132,14 @@ def chat(user_id):
     data = request.get_json()
     user_message = data.get("message", "")
     selected_theme = data.get("selected_theme")
+    json_id = data.get("json_id")
     if selected_theme:
         # store_url = f"https://{selected_theme}.store.shoopy.in/"
         # store_id = user_id
         # result = call_fetch_html_css_api(store_url , store_id , base_url="http://127.0.0.1:5000")
         css_result = get_css_by_theme_name(selected_theme.lower())
-        store_css_for_user(user_id , css_result)
+        json_result = get_json_by_theme_name(selected_theme.lower())
+        store_css_and_json_for_user(user_id , css_result , json_result , json_id)
         return {"timestamp" : datetime.now().isoformat(), "content" : "Here's your theme!" , "isuser" : "false"}
 
     if not user_message:
@@ -147,7 +149,7 @@ def chat(user_id):
     chat_history = load_chat_history(user_id)
 
     # Get OpenAI reply
-    reply = get_openai_response(user_message, chat_history , user_id , session_id)
+    reply = get_openai_response(user_message, chat_history , user_id , session_id , json_id)
 
     # Save updated history
     save_chat_history(user_id, chat_history)
@@ -159,7 +161,6 @@ def chat(user_id):
     #     return jsonify({"reply": reply, "isuser": "false"})
     
     return jsonify(normalize_reply(reply))
-
 
 @api.route('/checkpoint/<user_id>/<checkpoint_id>', methods=['POST'])
 def checkpoint_handler(user_id, checkpoint_id):
@@ -175,8 +176,8 @@ def checkpoint_handler(user_id, checkpoint_id):
     return Response(status=204)
 
 
-@api.route('/checkpoint/<user_id>/<checkpoint_id>', methods=['GET'])
-def get_checkpoint(user_id, checkpoint_id):
+@api.route('/checkpoint/<user_id>/<checkpoint_id>/<json_id>', methods=['GET'])
+def get_checkpoint(user_id, checkpoint_id , json_id):
     try:
         data = retrieve_checkpoint(user_id, checkpoint_id)
         return jsonify({
@@ -186,6 +187,18 @@ def get_checkpoint(user_id, checkpoint_id):
         }), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 404
+    
+
+@api.route('/', methods=['GET'])
+def retrieve_json():
+    json_id = request.args.get('id')
+    if json_id:
+        result = retrieve_json_for_user(json_id)
+        result2 = json.loads(result["json"])
+        return jsonify ({"json" : result2["payload"]})
+    else:
+        return jsonify({"error": "No ID provided"}), 400
+
 
 
 

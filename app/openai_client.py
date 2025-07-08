@@ -109,7 +109,7 @@ def sanitize_chat_history(chat_history):
             message["content"] = json.dumps(message["content"])
     return chat_history
 
-def get_openai_response(user_input, chat_history, user_id, session_id):
+def get_openai_response(user_input, chat_history, user_id, session_id , json_id):
     try:
         # Add system prompt if not present
         if not any(msg['role'] == 'system' for msg in chat_history):
@@ -203,8 +203,8 @@ def get_openai_response(user_input, chat_history, user_id, session_id):
 
 
                 elif function_name == "edit_css":
-                    
-                    css_result = edit_css(**arguments , user_id = user_id)
+                    print("Edit_css is being called")
+                    css_result = edit_css(**arguments , user_id = user_id , json_id = json_id)
                     result = {
                             "timestamp": datetime.now().isoformat(),
                             **css_result

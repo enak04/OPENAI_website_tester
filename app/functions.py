@@ -1,6 +1,6 @@
 from app.client import client
 from .openai_themeselector import get_best_theme
-from database.modifying_databases import retrieve_css_for_user , retrieve_theme_data , store_css_for_user
+from database.modifying_databases import retrieve_css_and_json_for_user , retrieve_theme_data , store_css_and_json_for_user
 from .query_analyzer import analyze_prompt
 import json
 import os
@@ -88,6 +88,71 @@ def modify_css(css_string, modification):
             print(f"Selector '{selector}' not found, skipping modification.")
 
     return updated_css
+
+import json
+
+# def modify_json(original_json_str: str, modification_dict: dict) -> str:
+#     """
+#     Modifies original JSON string by applying the provided modification_dict["updates"]["json"].
+
+#     Args:
+#         original_json_str (str): The original JSON string stored for the user.
+#         modification_dict (dict): The parsed modification JSON containing the updates under modification_dict["updates"]["json"].
+
+#     Returns:
+#         str: Updated JSON string ready for storage.
+#     """
+#     try:
+#         # Parse the original JSON string into a dict
+#         original_json = json.loads(original_json_str)
+#     except json.JSONDecodeError:
+#         print("Error decoding original JSON, using empty JSON object.")
+#         original_json = {}
+
+#     # Extract the modifications
+#     json_updates = modification_dict.get("updates", {}).get("json", {})
+
+#     # Recursively update the original JSON with the modifications
+#     def recursive_update(orig, updates):
+#         for key, value in updates.items():
+#             if isinstance(value, dict) and isinstance(orig.get(key), dict):
+#                 recursive_update(orig[key], value)
+#             else:
+#                 orig[key] = value
+
+#     recursive_update(original_json, json_updates)
+
+#     # Return the updated JSON string
+#     return json.dumps(original_json, indent=2)
+
+def modify_json(original_json_str: str, modification_dict: dict) -> str:
+    """
+    Modifies original JSON string by applying the provided modification_dict["updates"]["json"].
+    Handles direct key replacements including nested 'payload.rows' replacement when 'rows' is provided.
+    """
+    try:
+        original_json = json.loads(original_json_str)
+    except json.JSONDecodeError:
+        print("Error decoding original JSON, using empty JSON object.")
+        original_json = {}
+
+    json_updates = modification_dict.get("updates", {}).get("json", {})
+
+    def recursive_update(orig, updates):
+        for key, value in updates.items():
+            if isinstance(value, dict) and isinstance(orig.get(key), dict):
+                recursive_update(orig[key], value)
+            else:
+                orig[key] = value
+
+    recursive_update(original_json, json_updates)
+
+    # Handle special case: replace payload["rows"] if "rows" is provided at top level
+    if "rows" in json_updates:
+        if "payload" in original_json and isinstance(original_json["payload"], dict):
+            original_json["payload"]["rows"] = json_updates["rows"]
+
+    return json.dumps(original_json, indent=2)
 
 
 
@@ -194,38 +259,38 @@ def get_theme(theme_name):
         return f"Error customizing CSS: {str(e)}"
 
 
-def customize_css(property_to_change, new_value , user_id , session_id):
+# def customize_css(property_to_change, new_value , user_id , session_id):
 
-    try:
-        css_content = retrieve_theme_data(user_id , session_id)
+#     try:
+#         css_content = retrieve_theme_data(user_id , session_id)
 
-        prompt = f"""
-                Below is a CSS file.
+#         prompt = f"""
+#                 Below is a CSS file.
 
-                Change the CSS to reflect the following change:
-                Property to change: {property_to_change}
-                New value: {new_value}
+#                 Change the CSS to reflect the following change:
+#                 Property to change: {property_to_change}
+#                 New value: {new_value}
 
-                If there is a clash between multiple properties , clarify with the user which one they are talking about .
-                STRICTLY ALWAYS CLARIFY . For an example , say if you are confused between primary and secondary button ask the user
-                to give more clues about which button
+#                 If there is a clash between multiple properties , clarify with the user which one they are talking about .
+#                 STRICTLY ALWAYS CLARIFY . For an example , say if you are confused between primary and secondary button ask the user
+#                 to give more clues about which button
 
-                Return the full updated CSS, without any explanations, comments, or additional formatting. Return valid CSS only, without backticks, without markdown, and without comments.
-                {css_content}
-                """
+#                 Return the full updated CSS, without any explanations, comments, or additional formatting. Return valid CSS only, without backticks, without markdown, and without comments.
+#                 {css_content}
+#                 """
         
-        response = client.chat.completions.create(
-            model="gpt-4o-theme-customization",
-            messages=[
-                {"role": "system", "content": "You are a frontend assistant specializing in CSS customization."},
-                {"role": "user", "content": prompt}
-            ]
-        )
+#         response = client.chat.completions.create(
+#             model="gpt-4o-theme-customization",
+#             messages=[
+#                 {"role": "system", "content": "You are a frontend assistant specializing in CSS customization."},
+#                 {"role": "user", "content": prompt}
+#             ]
+#         )
 
-        return response.choices[0].message.content.strip()
+#         return response.choices[0].message.content.strip()
 
-    except Exception as e:
-        return f"Error customizing CSS: {str(e)}"
+#     except Exception as e:
+#         return f"Error customizing CSS: {str(e)}"
     
 
 def submit_color_preferences(primary_color: str, secondary_color: str):
@@ -234,31 +299,48 @@ def submit_color_preferences(primary_color: str, secondary_color: str):
         "secondary_color": secondary_color
     }
 
-def edit_css(user_id: str, prompt: str):
+def edit_css(user_id: str, prompt: str , json_id : str):
 
     # theme_data = get_theme_by_userid(user_id)
     # if not theme_data or "css" not in theme_data:
     #     return jsonify({"error": "No theme found for user"}), 404
 
     # original_css = theme_data["css"]
-    original_css = retrieve_css_for_user(user_id)
+    retrieved_data = retrieve_css_and_json_for_user(user_id)
+    print("\n" , retrieved_data)
+    original_css = retrieved_data["css"]
+    original_json = retrieved_data["json"]
+    # print(original_json)
+
     
-    result = analyze_prompt(prompt, original_css)
+    result = analyze_prompt(prompt, original_css , original_json)
+    result2 = json.loads(result["content"]) #converting string to json format
+    # print(result2)
+    # print("Error here")
     
     if isinstance(result["content"], list):
         return {"user": user_id, "content": result["content"][0]}
     else:
         
+        # print("Error here 2")
+        # modified_css = modify_css(original_css , result2["updates"])
+        # print(modified_css)
+        if result2["updates"].get("css_update", False):
+            modified_css = modify_css(original_css, result2["updates"])
+        else:
+            modified_css = original_css
+
+        if result2["updates"].get("json_update", False):
+            modified_json = modify_json(original_json, result2)
+        else:
+            modified_json = original_json
+
+        # print(modified_json)
         
-        modified_css = modify_css(original_css , result["content"])
-        
-        store_css_for_user(user_id , modified_css)
-        parsed_content = json.loads(result["content"])
+        # store_css_and_json_for_user(user_id , modified_css , original_json)
+        store_css_and_json_for_user(user_id , modified_css , modified_json , json_id)
         return {
             "user": user_id,
-            "updates": {
-                "css": parsed_content["css"],
-                "modifiedClasses": parsed_content["modifiedClasses"]
-            }       
+            **result2 
         }
 

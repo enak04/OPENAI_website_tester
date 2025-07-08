@@ -158,20 +158,31 @@ def get_css_by_theme_name(theme_name: str) -> str:
     
     return doc["css"]
 
+def get_json_by_theme_name(theme_name: str) -> str:
+
+    doc = theme_database.find_one({"theme_name": theme_name}, {"_id": 0, "json": 1})
+    
+    if not doc or "json" not in doc:
+        raise ValueError(f"No JSON found for theme: {theme_name}")
+    
+    return doc["json"]
 
 
 
-def store_css_for_user(user_id: str, css_content: str):
+
+def store_css_and_json_for_user(user_id: str, css_content: str , json_content : str , json_id : str):
     """
     Stores a copy of the theme CSS under `themes_history` for the user.
     If a document already exists, updates it.
     """
     
     theme_collection.update_one(
-        {"user_id": user_id},
-        {
+        {"user_id": user_id , "json_id" : json_id},
+        {   
             "$set": {
                 "css": css_content,
+                "json": json_content,
+                "json_id" : json_id,
                 "updated_at": datetime.now()
             },
             "$setOnInsert": {
@@ -180,10 +191,10 @@ def store_css_for_user(user_id: str, css_content: str):
         },
         upsert=True
     )
-    print(f"Stored CSS for user_id={user_id}")
+    print(f"Stored CSS and JSON for user_id={user_id}")
 
 
-def retrieve_css_for_user(user_id: str) -> str:
+def retrieve_css_and_json_for_user(user_id: str) -> str:
     """
     Retrieves the stored CSS for a given user_id from `themes_history`.
     Returns the CSS string if found, otherwise raises an error.
@@ -193,8 +204,23 @@ def retrieve_css_for_user(user_id: str) -> str:
     if not record or "css" not in record:
         raise ValueError(f"No stored CSS found for user_id: {user_id}")
 
-    css_content = record["css"]
-    return css_content
+    # css_content = record["css"]
+    # json_content = record["json"]
+    return record
+
+def retrieve_json_for_user(json_id: str) -> str:
+    """
+    Retrieves the stored CSS for a given user_id from `themes_history`.
+    Returns the CSS string if found, otherwise raises an error.
+    """
+    record = theme_collection.find_one({"json_id": json_id})
+
+    if not record or "css" not in record:
+        raise ValueError(f"No stored CSS found for user_id: {json_id}")
+
+    # css_content = record["css"]
+    # json_content = record["json"]
+    return record
 
 def save_checkpoint(user_id: str, checkpoint_id: str, data: dict) -> None:
     """

@@ -133,6 +133,7 @@ def chat(user_id):
     user_message = data.get("message", "")
     selected_theme = data.get("selected_theme")
     json_id = data.get("json_id")
+    print("\nData is :" , data)
     if selected_theme:
         # store_url = f"https://{selected_theme}.store.shoopy.in/"
         # store_id = user_id

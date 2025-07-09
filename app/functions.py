@@ -341,6 +341,7 @@ def edit_css(user_id: str, prompt: str , json_id : str):
         store_css_and_json_for_user(user_id , modified_css , modified_json , json_id)
         return {
             "user": user_id,
+            "json_id" : json_id,
             **result2 
         }
 

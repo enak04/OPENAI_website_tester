@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify , Response
+import uuid
 from .openai_client import get_openai_response
 from database.modifying_databases import *
 
@@ -129,7 +130,7 @@ def chat(user_id):
     data = request.get_json()
     user_message = data.get("message", "")
     selected_theme = data.get("selected_theme")
-    json_id = data.get("json_id")
+    json_id = str(uuid.uuid4())
     print("\nData is :" , data)
     if selected_theme:
         # store_url = f"https://{selected_theme}.store.shoopy.in/"
@@ -138,11 +139,11 @@ def chat(user_id):
         css_result = get_css_by_theme_name(selected_theme.lower())
         json_result = get_json_by_theme_name(selected_theme.lower())
         store_css_and_json_for_user(user_id , css_result , json_result , json_id)
-        user_message =  "Edit my website theme when " + user_message
+        # user_message =  "Edit my website theme when " + user_message
     print("\nuser message is : " , user_message , "\njson_id is : " , json_id)
 
-    if not user_message:
-        return jsonify({"error": "No message provided"}), 400
+    # if not user_message:
+    #     return jsonify({"error": "No message provided"}), 400
     
     # Load chat history
     chat_history = load_chat_history(user_id)
@@ -175,14 +176,19 @@ def checkpoint_handler(user_id, checkpoint_id):
     return Response(status=204)
 
 
-@api.route('/checkpoint/<user_id>/<checkpoint_id>/<json_id>', methods=['GET'])
-def get_checkpoint(user_id, checkpoint_id , json_id):
+@api.route('/checkpoint/<user_id>/<checkpoint_id>', methods=['GET'])
+def get_checkpoint(user_id, checkpoint_id):
+    
     try:
+        data2 = request.get_json()
+        json_id = data2.get("json_id")
         data = retrieve_checkpoint(user_id, checkpoint_id)
+        
         return jsonify({
             "user_id": user_id,
             "checkpoint_id": checkpoint_id,
-            "data": data
+            "data": data,
+            "json_id" : json_id
         }), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 404

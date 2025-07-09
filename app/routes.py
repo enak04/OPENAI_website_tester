@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify , Response
 from .openai_client import get_openai_response
 from database.modifying_databases import *
+
 import re
 import os
 import json
@@ -120,10 +121,6 @@ def clean_openai_response(text):
     return text.strip()
 
 api = Blueprint('api', __name__)
-
-@api.route('/hello')
-def hello():
-    return "API working fine"
 
 @api.route('/chat/<user_id>', methods=['POST'])
 

@@ -9,7 +9,7 @@ def extract_css_from_response(text):
     css = re.sub(r'```css|```', '', css).strip()
     return css.strip()
 
-def analyze_prompt(prompt, cssdata , jsondata ):
+def analyze_prompt(prompt, cssdata , jsondata , htmldata):
     # system_msg = (
     # "You are a CSS editing assistant for non-technical users.\n\n"
     # "They will describe elements using terms like 'main button', 'header', 'top bar', etc.\n\n"
@@ -79,6 +79,7 @@ def analyze_prompt(prompt, cssdata , jsondata ):
         messages=[
             {"role": "system", "content": system_msg},
             {"role": "user", "content": f"Here is the current CSS:\n{cssdata}"},
+            {"role": "user", "content": f"Here is the html of the site:\n{htmldata}"},
             {"role": "user", "content": f"Here is the current JSON:\n{jsondata}"},
             {"role": "user", "content": f"User says:\n{prompt}"}
         ], 

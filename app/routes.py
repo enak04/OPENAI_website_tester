@@ -138,7 +138,8 @@ def chat(user_id):
         # result = call_fetch_html_css_api(store_url , store_id , base_url="http://127.0.0.1:5000")
         css_result = get_css_by_theme_name(selected_theme.lower())
         json_result = get_json_by_theme_name(selected_theme.lower())
-        store_css_and_json_for_user(user_id , css_result , json_result , json_id)
+        html_result = get_html_by_theme_name(selected_theme.lower())
+        store_css_and_json_for_user(user_id , css_result , json_result , json_id , html_result)
         # user_message =  "Edit my website theme when " + user_message
     print("\nuser message is : " , user_message , "\njson_id is : " , json_id)
 

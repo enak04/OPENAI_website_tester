@@ -167,10 +167,19 @@ def get_json_by_theme_name(theme_name: str) -> str:
     
     return doc["json"]
 
+def get_html_by_theme_name(theme_name: str) -> str:
+
+    doc = theme_database.find_one({"theme_name": theme_name}, {"_id": 0, "html": 1})
+    
+    if not doc or "html" not in doc:
+        raise ValueError(f"No JSON found for theme: {theme_name}")
+    
+    return doc["html"]
 
 
 
-def store_css_and_json_for_user(user_id: str, css_content: str , json_content : str , json_id : str):
+
+def store_css_and_json_for_user(user_id: str, css_content: str , json_content : str , json_id : str , html_content : str):
     """
     Stores a copy of the theme CSS under `themes_history` for the user.
     If a document already exists, updates it.
@@ -182,6 +191,7 @@ def store_css_and_json_for_user(user_id: str, css_content: str , json_content : 
             "$set": {
                 "css": css_content,
                 "json": json_content,
+                "html" : html_content,
                 "json_id" : json_id,
                 "updated_at": datetime.now()
             },

@@ -332,7 +332,8 @@ def edit_css(user_id: str, prompt: str , json_id : str):
             modified_css = original_css
 
         if result2["updates"].get("json_update", False):
-            json_new = result2.get("updates", {}).get("complete_json", {})
+            json_changed = result2.get("updates", {}).get("complete_json", {})
+            json_new = json.dumps(json_changed)
         else:
             json_new = original_json
 

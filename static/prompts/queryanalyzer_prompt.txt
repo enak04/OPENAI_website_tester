@@ -41,6 +41,7 @@ If something close is possible (e.g., user asks for bigger icon but you can only
     "json": {
       <full JSON block for each modified component, including slug and title if available>
     }
+    "complete_json" : { full json with modified components}
   }
 }
 

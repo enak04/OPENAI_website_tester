@@ -332,14 +332,14 @@ def edit_css(user_id: str, prompt: str , json_id : str):
             modified_css = original_css
 
         if result2["updates"].get("json_update", False):
-            modified_json = modify_json(original_json, result2)
+            json_new = result2.get("updates", {}).get("complete_json", {})
         else:
-            modified_json = original_json
+            json_new = original_json
 
         # print(modified_json)
         
         # store_css_and_json_for_user(user_id , modified_css , original_json)
-        store_css_and_json_for_user(user_id , modified_css , modified_json , json_id , original_html)
+        store_css_and_json_for_user(user_id , modified_css , json_new , json_id , original_html)
         return {
             "user": user_id,
             "json_id" : json_id,

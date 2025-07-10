@@ -181,15 +181,12 @@ def checkpoint_handler(user_id, checkpoint_id):
 def get_checkpoint(user_id, checkpoint_id):
     
     try:
-        data2 = request.get_json()
-        json_id = data2.get("json_id")
         data = retrieve_checkpoint(user_id, checkpoint_id)
         
         return jsonify({
             "user_id": user_id,
             "checkpoint_id": checkpoint_id,
             "data": data,
-            "json_id" : json_id
         }), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 404

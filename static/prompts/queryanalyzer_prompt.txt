@@ -17,7 +17,7 @@ Only make changes if a clearly matching selector or JSON key is present in the g
 
 ❌ Do NOT create or assume selectors/keys if they are not found.
 
-If what the user asks for is not present, return:
+If what the user asks for is not present, return or even if the user wants to add a section return a suggestion like this:
 {
   "suggestions": ["For such changes please contact us directly via mail or phone!"]
 }

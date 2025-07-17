@@ -209,7 +209,9 @@ def retrieve_css_and_json_for_user(user_id: str) -> str:
     Retrieves the stored CSS for a given user_id from `themes_history`.
     Returns the CSS string if found, otherwise raises an error.
     """
-    record = theme_collection.find_one({"user_id": user_id})
+    record = theme_collection.find_one(
+    {"user_id": user_id},
+    sort=[("_id", -1)])  # sort by _id descending, latest document first 
 
     if not record or "css" not in record:
         raise ValueError(f"No stored CSS found for user_id: {user_id}")

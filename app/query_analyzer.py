@@ -73,6 +73,8 @@ def analyze_prompt(prompt, cssdata , jsondata , htmldata):
     
     system_msg = SYSTEM_PROMPT
 
+    print("\nPrompt is" , prompt)
+
     print("\nreached here 2\n")
     response = client.chat.completions.create(
         model="gpt-4o-theme-customization",

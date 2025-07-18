@@ -86,13 +86,13 @@ tools = [
         "type" : "function",
         "function" : {
             "name": "edit_css",
-            "description": "Use this when the user wants to edit their website theme's CSS based on a prompt using AI suggestions.",
+            "description": "Use this when the user wants to edit their website theme’s CSS based on a prompt using AI suggestions. Only call this when you feel you have all required data. If the user’s request is too vague (e.g., ‘change the product card’), ask clarifying questions first (e.g., how many product cards, what style/colors) before calling this function.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "prompt": {
                         "type": "string",
-                        "description": "The prompt describing what the user wants to change in their website's appearance.Keep in mind that the prompt should be such given that it does not misinterpret user's intent.Say for an example if the user wants to delete just the product card then don't give a prompt that deletes other sections of the website.Be smart."
+                        "description": "The prompt describing what the user wants to change in their website's appearance.Keep in mind that the prompt should be such given that it does not misinterpret user's intent.DO NOT ADD YOUR OWN INFORMATION.Say for an example if the user wants to delete just the product card then don't give a prompt that deletes other sections of the website.Be smart."
                     }
                 },
                 "required": ["prompt"]

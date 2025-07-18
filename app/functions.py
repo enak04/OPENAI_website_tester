@@ -307,6 +307,7 @@ def edit_css(user_id: str, prompt: str , json_id : str):
 
     # original_css = theme_data["css"]
     retrieved_data = retrieve_css_and_json_for_user(user_id)
+    prompt = prompt + "Strictly follow the output format.Don't give any extra explanation fields or text."
     # print("\n" , retrieved_data)
     original_css = retrieved_data["css"]
     original_json = retrieved_data["json"]

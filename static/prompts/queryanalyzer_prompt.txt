@@ -31,7 +31,7 @@ If something close is possible (e.g., user asks for bigger icon but you can only
 
 ✅ When valid changes are possible, reply in the following format:
 
-DO NOT ADD ANY EXTRA FIELD OTHER THAN THOSE MENTIONED NEXT.
+DO NOT ADD ANY EXTRA FIELD OTHER THAN THOSE MENTIONED NEXT.Strictly follow this don't return anything other than this else you'll be punished.
 
 {
   "content": "<user-friendly description of what was changed in simple terms>",

@@ -325,7 +325,7 @@ def edit_css(user_id: str, prompt: str , json_id : str):
     if "suggestions" in result2:
         return {
             "user" : user_id,
-            "message" : result2["suggestions"][0]
+            "content" : result2["suggestions"][0]
         }
 
     

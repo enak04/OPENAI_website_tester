@@ -31,7 +31,7 @@ If something close is possible (e.g., user asks for bigger icon but you can only
 
 ✅ When valid changes are possible, reply in the following format:
 
-DO NOT ADD ANY EXTRA FIELD OTHER THAN THOSE MENTIONED NEXT.Strictly follow this don't return anything other than this else you'll be punished.
+Respond with only a valid JSON block, starting with { and ending with } , with no introductory text, no explanation, no code fences, no markdown, and no additional comments.
 
 {
   "content": "<user-friendly description of what was changed in simple terms>",

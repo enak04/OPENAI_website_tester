@@ -90,11 +90,18 @@ def analyze_prompt(prompt, cssdata , jsondata , htmldata):
     print("reached here 3 \n")
     reply = response.choices[0].message.content.strip()
 
+    json_match = re.search(r"\{[\s\S]*\}", reply)
+
+    if json_match:
+        clean_json = json_match.group(0)
+    else:
+        clean_json = reply
+
     # if reply.startswith("{") and '"suggestions"' in reply:
     #     return {"type": "suggestions", "content": eval(reply)["suggestions"]}
 
     # clean_css = extract_css_from_response(reply)
     print("reached here 4\n")
-    print(reply)
+    print(clean_json)
     # return {"type": "css", "content": clean_css}
-    return {"content" : reply}
+    return {"content" : clean_json}

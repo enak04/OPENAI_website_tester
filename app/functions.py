@@ -311,11 +311,6 @@ def edit_css(user_id: str, prompt: str , json_id : str):
     original_css = retrieved_data["css"]
     original_json = retrieved_data["json"]
     original_html = retrieved_data["html"]
-
-    print(original_json)
-
-
-
     
     result = analyze_prompt(prompt, original_css , original_json ,original_html)
     result2 = json.loads(result["content"]) #converting string to json format

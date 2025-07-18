@@ -205,10 +205,12 @@ def get_openai_response(user_input, chat_history, user_id, session_id , json_id)
                 elif function_name == "edit_css":
                     print("Edit_css is being called")
                     css_result = edit_css(**arguments , user_id = user_id , json_id = json_id)
+                    print("Here is the response :" , css_result)
                     result = {
                             "timestamp": datetime.now().isoformat(),
                             **css_result
                         }
+                    print(css_result)
                     tool_msg = {
                         "timestamp": datetime.now().isoformat(),
                         "role": "tool",

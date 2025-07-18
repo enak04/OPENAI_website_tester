@@ -45,7 +45,7 @@ def insert_data(chat_data , user_id :str , session_id : str):
 def retrieve_data(user_id: str, session_id: str):
     doc = chat_collection.find_one(
         {"user_id": user_id, "chat_session_id": session_id},
-        {"_id": 0, "history": {"$slice": -10}}  # efficient slice
+        {"_id": 0, "history": {"$slice": -100}}  # efficient slice
     )
     if doc and doc.get("history"):
         return doc["history"]   # ✅ Return Python list

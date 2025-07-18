@@ -39,7 +39,7 @@ tools = [
         "type": "function",
         "function": {
             "name": "submitBusinessThemeDetails",
-            "description": "Submit the user's business category and preferred theme colors.",
+            "description": "Submit the user's business category and preferred template colors. If a template has already been given before and user doesn't want a new template DO NOT CALL THIS TOOL",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -92,7 +92,7 @@ tools = [
                 "properties": {
                     "prompt": {
                         "type": "string",
-                        "description": "The prompt describing what the user wants to change in their website's appearance."
+                        "description": "The prompt describing what the user wants to change in their website's appearance.Keep in mind that the prompt should be such given that it does not misinterpret user's intent.Say for an example if the user wants to delete just the product card then don't give a prompt that deletes other sections of the website.Be smart."
                     }
                 },
                 "required": ["prompt"]

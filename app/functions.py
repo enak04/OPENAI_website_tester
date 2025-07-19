@@ -5,53 +5,6 @@ from .query_analyzer import analyze_prompt
 import json
 import os
 import re
-# def modify_css(css_string, modification):
-    
-#     """
-#     Modifies css_string based on selectors and properties in modification["css"].
-
-#     Args:
-#         css_string (str): Original CSS string.
-#         modification (dict): JSON with keys:
-#             - "css": str containing CSS to modify selectors.
-#             - "modifiedClasses": list of selectors.
-
-#     Returns:
-#         dict: {
-#             "css": updated CSS string,
-#             "modifiedClasses": [...]
-#         }
-#     """
-#     # Parse modification["css"] into selector -> properties mapping    
-#     if isinstance(modification, str):
-#         modification = json.loads(modification)
-#     mod_css_lines = modification["css"].split("\n")
-    
-#     changes = {}
-#     for line in mod_css_lines:
-#         if not line.strip():
-#             continue
-#         selector, properties = line.split("{")
-#         selector = selector.strip()
-#         properties = properties.strip("} ").strip()
-#         changes[selector] = properties
-
-#     updated_css = css_string
-
-#     # Apply each modification using regex replacement
-#     for selector, new_props in changes.items():
-#         # Regex pattern to find the exact selector block
-#         pattern = re.compile(r'(' + re.escape(selector) + r')\s*\{[^}]*\}')
-#         replacement = f"{selector} {{ {new_props} }}"
-#         updated_css, count = pattern.subn(replacement, updated_css)
-#         if count == 0:
-#             print(f"Selector '{selector}' not found, skipping modification.")
-
-#     return updated_css
-
-
-import json
-import re
 
 def modify_css(css_string, modification):
     """
@@ -88,42 +41,6 @@ def modify_css(css_string, modification):
             print(f"Selector '{selector}' not found, skipping modification.")
 
     return updated_css
-
-import json
-
-# def modify_json(original_json_str: str, modification_dict: dict) -> str:
-#     """
-#     Modifies original JSON string by applying the provided modification_dict["updates"]["json"].
-
-#     Args:
-#         original_json_str (str): The original JSON string stored for the user.
-#         modification_dict (dict): The parsed modification JSON containing the updates under modification_dict["updates"]["json"].
-
-#     Returns:
-#         str: Updated JSON string ready for storage.
-#     """
-#     try:
-#         # Parse the original JSON string into a dict
-#         original_json = json.loads(original_json_str)
-#     except json.JSONDecodeError:
-#         print("Error decoding original JSON, using empty JSON object.")
-#         original_json = {}
-
-#     # Extract the modifications
-#     json_updates = modification_dict.get("updates", {}).get("json", {})
-
-#     # Recursively update the original JSON with the modifications
-#     def recursive_update(orig, updates):
-#         for key, value in updates.items():
-#             if isinstance(value, dict) and isinstance(orig.get(key), dict):
-#                 recursive_update(orig[key], value)
-#             else:
-#                 orig[key] = value
-
-#     recursive_update(original_json, json_updates)
-
-#     # Return the updated JSON string
-#     return json.dumps(original_json, indent=2)
 
 def modify_json(original_json_str: str, modification_dict: dict) -> str:
     """
@@ -259,38 +176,7 @@ def get_theme(theme_name):
         return f"Error customizing CSS: {str(e)}"
 
 
-# def customize_css(property_to_change, new_value , user_id , session_id):
-
-#     try:
-#         css_content = retrieve_theme_data(user_id , session_id)
-
-#         prompt = f"""
-#                 Below is a CSS file.
-
-#                 Change the CSS to reflect the following change:
-#                 Property to change: {property_to_change}
-#                 New value: {new_value}
-
-#                 If there is a clash between multiple properties , clarify with the user which one they are talking about .
-#                 STRICTLY ALWAYS CLARIFY . For an example , say if you are confused between primary and secondary button ask the user
-#                 to give more clues about which button
-
-#                 Return the full updated CSS, without any explanations, comments, or additional formatting. Return valid CSS only, without backticks, without markdown, and without comments.
-#                 {css_content}
-#                 """
-        
-#         response = client.chat.completions.create(
-#             model="gpt-4o-theme-customization",
-#             messages=[
-#                 {"role": "system", "content": "You are a frontend assistant specializing in CSS customization."},
-#                 {"role": "user", "content": prompt}
-#             ]
-#         )
-
-#         return response.choices[0].message.content.strip()
-
-#     except Exception as e:
-#         return f"Error customizing CSS: {str(e)}"
+# def customize_css(property_to_change, new_value ,
     
 
 def submit_color_preferences(primary_color: str, secondary_color: str):
